@@ -205,7 +205,6 @@ class _PlayerControls extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Previous button
             if (state.radioStations.isNotEmpty) ...[
               _ControlButton(
                 icon: Icons.skip_previous,
@@ -217,8 +216,6 @@ class _PlayerControls extends StatelessWidget {
               ),
               const SizedBox(width: 24),
             ],
-
-            // Main play/pause button
             _ControlButton(
               icon: state.status.icon,
               onPressed: state.status.isLoading ? null : cubit.handlePlayPause,
@@ -227,8 +224,6 @@ class _PlayerControls extends StatelessWidget {
               isPrimary: true,
               isLoading: state.status.isLoading,
             ),
-
-            // Next button
             if (state.radioStations.isNotEmpty) ...[
               const SizedBox(width: 24),
               _ControlButton(
@@ -374,21 +369,5 @@ extension on RadioPlayerStatus {
     RadioPlayerStatus.playing => 'LIVE',
     RadioPlayerStatus.paused => 'PAUSED',
     RadioPlayerStatus.error => 'ERROR',
-  };
-
-  Color get color => switch (this) {
-    RadioPlayerStatus.playing => Colors.green,
-    RadioPlayerStatus.paused => Colors.orange,
-    RadioPlayerStatus.initial => Colors.grey,
-    RadioPlayerStatus.loading => Colors.blue,
-    RadioPlayerStatus.error => Colors.red,
-  };
-
-  String get text => switch (this) {
-    RadioPlayerStatus.initial => 'Ready to play',
-    RadioPlayerStatus.loading => 'Loading...',
-    RadioPlayerStatus.playing => 'Now playing',
-    RadioPlayerStatus.paused => 'Paused',
-    RadioPlayerStatus.error => 'Error occurred',
   };
 }
