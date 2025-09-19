@@ -5,13 +5,18 @@ import 'package:radiox/radio_player/radio_player.dart';
 import 'package:user_repository/user_repository.dart';
 
 class RadioPlayerPage extends StatelessWidget {
-  const RadioPlayerPage({required this.radioStation, super.key});
+  const RadioPlayerPage({
+    required this.radioStation,
+    super.key,
+  });
 
   final RadioStation radioStation;
 
   static Route<void> route(RadioStation radioStation) {
     return MaterialPageRoute(
-      builder: (context) => RadioPlayerPage(radioStation: radioStation),
+      builder: (context) => RadioPlayerPage(
+        radioStation: radioStation,
+      ),
     );
   }
 

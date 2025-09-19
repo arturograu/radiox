@@ -23,16 +23,35 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
     _playerStateSubscription = _audioPlayer.playerStateStream.listen(
       _onPlayerStateChanged,
     );
+    _autoPlay();
   }
 
   final AudioPlayer _audioPlayer;
   final UserRepository _userRepository;
-  late final StreamSubscription<PlayerState> _playerStateSubscription;
+  late StreamSubscription<PlayerState> _playerStateSubscription;
 
   void _onPlayerStateChanged(PlayerState playerState) {
     emit(
       state.copyWith(status: playerState.radioPlayerStatus),
     );
+  }
+
+  void _autoPlay() {
+    // Use Future.microtask to avoid calling async method in constructor
+    Future.microtask(() async {
+      try {
+        emit(state.copyWith(status: RadioPlayerStatus.loading));
+        await _audioPlayer.setUrl(state.radioStation.url);
+        await _audioPlayer.play();
+      } on Exception catch (error) {
+        emit(
+          state.copyWith(
+            status: RadioPlayerStatus.error,
+            errorMessage: 'Failed to auto-play radio station: $error',
+          ),
+        );
+      }
+    });
   }
 
   Future<void> handlePlayPause() async {

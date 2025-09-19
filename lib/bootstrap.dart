@@ -28,7 +28,6 @@ Future<void> bootstrap(
   FutureOr<Widget> Function({
     required RadioStationsRepository radioStationsRepository,
     required UserRepository userRepository,
-    required List<RadioStation> favoriteRadioStations,
   })
   builder,
 ) async {
@@ -52,7 +51,6 @@ Future<void> bootstrap(
     await builder(
       radioStationsRepository: radioStationsRepository,
       userRepository: userRepository,
-      favoriteRadioStations: await userRepository.favoriteRadioStations.first,
     ),
   );
 }

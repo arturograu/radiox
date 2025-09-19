@@ -8,6 +8,7 @@ class VolumeControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RadioPlayerCubit, RadioPlayerState>(
+      buildWhen: (previous, current) => previous.volume != current.volume,
       builder: (context, state) {
         return Card(
           child: Padding(

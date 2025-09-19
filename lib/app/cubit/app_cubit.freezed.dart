@@ -200,11 +200,11 @@ return $default(_that.favoriteRadioStations);case _:
 
 
 class _AppState implements AppState {
-  const _AppState({required final  List<RadioStation> favoriteRadioStations}): _favoriteRadioStations = favoriteRadioStations;
+  const _AppState({final  List<RadioStation> favoriteRadioStations = const []}): _favoriteRadioStations = favoriteRadioStations;
   
 
  final  List<RadioStation> _favoriteRadioStations;
-@override List<RadioStation> get favoriteRadioStations {
+@override@JsonKey() List<RadioStation> get favoriteRadioStations {
   if (_favoriteRadioStations is EqualUnmodifiableListView) return _favoriteRadioStations;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_favoriteRadioStations);

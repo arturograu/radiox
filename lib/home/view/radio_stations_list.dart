@@ -54,7 +54,10 @@ class _SuccessView extends StatelessWidget {
                 name: radioStation.name,
                 url: radioStation.url,
                 onTap: () {
-                  Navigator.push(context, RadioPlayerPage.route(radioStation));
+                  Navigator.push(
+                    context,
+                    RadioPlayerPage.route(radioStation),
+                  );
                 },
               );
             },

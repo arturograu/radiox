@@ -9,15 +9,12 @@ class App extends StatelessWidget {
   const App({
     required RadioStationsRepository radioStationsRepository,
     required UserRepository userRepository,
-    required List<RadioStation> favoriteRadioStations,
     super.key,
   }) : _radioStationsRepository = radioStationsRepository,
-       _userRepository = userRepository,
-       _favoriteRadioStations = favoriteRadioStations;
+       _userRepository = userRepository;
 
   final RadioStationsRepository _radioStationsRepository;
   final UserRepository _userRepository;
-  final List<RadioStation> _favoriteRadioStations;
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -26,10 +23,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _userRepository),
       ],
       child: BlocProvider(
-        create: (_) => AppCubit(
-          userRepository: _userRepository,
-          favoriteRadioStations: _favoriteRadioStations,
-        ),
+        create: (_) => AppCubit(userRepository: _userRepository),
         child: const _AppView(),
       ),
     );
