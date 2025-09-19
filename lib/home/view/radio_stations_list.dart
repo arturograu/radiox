@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
 import 'package:radiox/home/home.dart';
+import 'package:radiox/radio_player/radio_player.dart';
 
 class RadioStationsList extends StatelessWidget {
   const RadioStationsList({super.key});
@@ -53,10 +54,7 @@ class _SuccessView extends StatelessWidget {
                 name: radioStation.name,
                 url: radioStation.url,
                 onTap: () {
-                  // TODO: Navigate to radio station details or start playing
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Playing ${radioStation.name}')),
-                  );
+                  Navigator.push(context, RadioPlayerPage.route(radioStation));
                 },
               );
             },
