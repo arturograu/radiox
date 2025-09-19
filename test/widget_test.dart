@@ -1,30 +1,21 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:radio_browser_api_client/radio_browser_api_client.dart' as api;
+import 'package:radio_stations_repository/radio_stations_repository.dart';
+import 'package:radiox/app/app.dart';
 
-import 'package:radiox/main.dart';
+class MockRadioBrowserApiClient extends Mock
+    implements api.RadioBrowserApiClient {}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('RadioX app smoke test', (WidgetTester tester) async {
+    final mockApiClient = MockRadioBrowserApiClient();
+    final mockRepository = RadioStationsRepository(apiClient: mockApiClient);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    when(() => mockApiClient.listTopStations()).thenAnswer((_) async => []);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    await tester.pumpWidget(App(radioStationsRepository: mockRepository));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('RadioX'), findsOneWidget);
   });
 }
