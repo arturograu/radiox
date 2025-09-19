@@ -14,7 +14,12 @@ class HomePage extends StatelessWidget {
         create: (_) => HomeCubit(
           radioStationsRepository: context.read<RadioStationsRepository>(),
         )..fetchRadioStations(),
-        child: const RadioStationsList(),
+        child: const Column(
+          children: [
+            FavoritesSection(),
+            Expanded(child: RadioStationsList()),
+          ],
+        ),
       ),
     );
   }

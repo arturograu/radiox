@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:radio_stations_repository/radio_stations_repository.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_repository/src/models/models.dart';
 
@@ -25,7 +26,7 @@ class UserRepository {
   UserRepository({SharedPreferences? sharedPreferences})
     : _sharedPreferences = sharedPreferences,
       _favoriteRadioStations = <FavoriteRadioStation>[] {
-    _favoritesController = StreamController<List<RadioStation>>.broadcast();
+    _favoritesController = BehaviorSubject<List<RadioStation>>.seeded([]);
   }
 
   static const String _favoritesKey = 'favorite_radio_stations';

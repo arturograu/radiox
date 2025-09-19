@@ -8,9 +8,11 @@ void main() {
     ({
       required RadioStationsRepository radioStationsRepository,
       required UserRepository userRepository,
+      required List<RadioStation> favoriteRadioStations,
     }) => App(
       radioStationsRepository: radioStationsRepository,
       userRepository: userRepository,
+      favoriteRadioStations: favoriteRadioStations,
     ),
   );
 }

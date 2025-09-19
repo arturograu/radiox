@@ -22,6 +22,9 @@ void main() {
     when(
       () => mockUserRepository.isFavoriteRadioStation(any()),
     ).thenReturn(false);
+    when(() => mockUserRepository.favoriteRadioStations).thenAnswer(
+      (_) => Stream.value(<RadioStation>[]),
+    );
 
     await tester.pumpWidget(
       App(

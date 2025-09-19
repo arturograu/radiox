@@ -8,9 +8,11 @@ import 'package:user_repository/user_repository.dart';
 part 'app_cubit.freezed.dart';
 
 class AppCubit extends Cubit<AppState> {
-  AppCubit({required UserRepository userRepository})
-    : _userRepository = userRepository,
-      super(const AppState()) {
+  AppCubit({
+    required UserRepository userRepository,
+    required List<RadioStation> favoriteRadioStations,
+  }) : _userRepository = userRepository,
+       super(AppState(favoriteRadioStations: favoriteRadioStations)) {
     _favoritesSubscription = _userRepository.favoriteRadioStations.listen(
       _onFavoritesChanged,
     );
@@ -33,6 +35,6 @@ class AppCubit extends Cubit<AppState> {
 @freezed
 sealed class AppState with _$AppState {
   const factory AppState({
-    @Default([]) List<RadioStation> favoriteRadioStations,
+    required List<RadioStation> favoriteRadioStations,
   }) = _AppState;
 }
