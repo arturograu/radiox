@@ -14,30 +14,61 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$User {
 
-
+ List<RadioStation> get favoriteRadioStations;
+/// Create a copy of User
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UserCopyWith<User> get copyWith => _$UserCopyWithImpl<User>(this as User, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is User);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&const DeepCollectionEquality().equals(other.favoriteRadioStations, favoriteRadioStations));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(favoriteRadioStations));
 
 @override
 String toString() {
-  return 'User()';
+  return 'User(favoriteRadioStations: $favoriteRadioStations)';
 }
 
 
 }
 
 /// @nodoc
-class $UserCopyWith<$Res>  {
-$UserCopyWith(User _, $Res Function(User) __);
+abstract mixin class $UserCopyWith<$Res>  {
+  factory $UserCopyWith(User value, $Res Function(User) _then) = _$UserCopyWithImpl;
+@useResult
+$Res call({
+ List<RadioStation> favoriteRadioStations
+});
+
+
+
+
+}
+/// @nodoc
+class _$UserCopyWithImpl<$Res>
+    implements $UserCopyWith<$Res> {
+  _$UserCopyWithImpl(this._self, this._then);
+
+  final User _self;
+  final $Res Function(User) _then;
+
+/// Create a copy of User
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? favoriteRadioStations = null,}) {
+  return _then(_self.copyWith(
+favoriteRadioStations: null == favoriteRadioStations ? _self.favoriteRadioStations : favoriteRadioStations // ignore: cast_nullable_to_non_nullable
+as List<RadioStation>,
+  ));
+}
+
 }
 
 
@@ -116,10 +147,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function()?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<RadioStation> favoriteRadioStations)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _User() when $default != null:
-return $default();case _:
+return $default(_that.favoriteRadioStations);case _:
   return orElse();
 
 }
@@ -137,10 +168,10 @@ return $default();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function()  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<RadioStation> favoriteRadioStations)  $default,) {final _that = this;
 switch (_that) {
 case _User():
-return $default();}
+return $default(_that.favoriteRadioStations);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -154,10 +185,10 @@ return $default();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function()?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<RadioStation> favoriteRadioStations)?  $default,) {final _that = this;
 switch (_that) {
 case _User() when $default != null:
-return $default();case _:
+return $default(_that.favoriteRadioStations);case _:
   return null;
 
 }
@@ -169,32 +200,72 @@ return $default();case _:
 
 
 class _User implements User {
-  const _User();
+  const _User({final  List<RadioStation> favoriteRadioStations = const []}): _favoriteRadioStations = favoriteRadioStations;
   
 
+ final  List<RadioStation> _favoriteRadioStations;
+@override@JsonKey() List<RadioStation> get favoriteRadioStations {
+  if (_favoriteRadioStations is EqualUnmodifiableListView) return _favoriteRadioStations;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_favoriteRadioStations);
+}
 
 
+/// Create a copy of User
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UserCopyWith<_User> get copyWith => __$UserCopyWithImpl<_User>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&const DeepCollectionEquality().equals(other._favoriteRadioStations, _favoriteRadioStations));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_favoriteRadioStations));
 
 @override
 String toString() {
-  return 'User()';
+  return 'User(favoriteRadioStations: $favoriteRadioStations)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
+  factory _$UserCopyWith(_User value, $Res Function(_User) _then) = __$UserCopyWithImpl;
+@override @useResult
+$Res call({
+ List<RadioStation> favoriteRadioStations
+});
 
 
+
+
+}
+/// @nodoc
+class __$UserCopyWithImpl<$Res>
+    implements _$UserCopyWith<$Res> {
+  __$UserCopyWithImpl(this._self, this._then);
+
+  final _User _self;
+  final $Res Function(_User) _then;
+
+/// Create a copy of User
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? favoriteRadioStations = null,}) {
+  return _then(_User(
+favoriteRadioStations: null == favoriteRadioStations ? _self._favoriteRadioStations : favoriteRadioStations // ignore: cast_nullable_to_non_nullable
+as List<RadioStation>,
+  ));
+}
+
+
+}
 
 // dart format on

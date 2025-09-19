@@ -11,6 +11,7 @@ part of 'radio_station.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
+
 /// @nodoc
 mixin _$RadioStation {
 
@@ -21,6 +22,8 @@ mixin _$RadioStation {
 @pragma('vm:prefer-inline')
 $RadioStationCopyWith<RadioStation> get copyWith => _$RadioStationCopyWithImpl<RadioStation>(this as RadioStation, _$identity);
 
+  /// Serializes this RadioStation to a JSON map.
+  Map<String, dynamic> toJson();
 
 
 @override
@@ -28,7 +31,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is RadioStation&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,name,url);
 
@@ -198,11 +201,11 @@ return $default(_that.name,_that.url);case _:
 }
 
 /// @nodoc
-
+@JsonSerializable()
 
 class _RadioStation implements RadioStation {
   const _RadioStation({required this.name, required this.url});
-  
+  factory _RadioStation.fromJson(Map<String, dynamic> json) => _$RadioStationFromJson(json);
 
 @override final  String name;
 @override final  String url;
@@ -213,14 +216,17 @@ class _RadioStation implements RadioStation {
 @pragma('vm:prefer-inline')
 _$RadioStationCopyWith<_RadioStation> get copyWith => __$RadioStationCopyWithImpl<_RadioStation>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$RadioStationToJson(this, );
+}
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is _RadioStation&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode => Object.hash(runtimeType,name,url);
 
