@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RadioPlayerState {
 
- RadioStation get radioStation; RadioPlayerStatus get status; double get volume; bool get isFirstRadioStationPlay; String? get errorMessage;
+ RadioStation get radioStation; List<RadioStation> get radioStations; int get currentIndex; RadioPlayerStatus get status; double get volume; bool get isFirstRadioStationPlay; String? get errorMessage;
 /// Create a copy of RadioPlayerState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $RadioPlayerStateCopyWith<RadioPlayerState> get copyWith => _$RadioPlayerStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RadioPlayerState&&(identical(other.radioStation, radioStation) || other.radioStation == radioStation)&&(identical(other.status, status) || other.status == status)&&(identical(other.volume, volume) || other.volume == volume)&&(identical(other.isFirstRadioStationPlay, isFirstRadioStationPlay) || other.isFirstRadioStationPlay == isFirstRadioStationPlay)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RadioPlayerState&&(identical(other.radioStation, radioStation) || other.radioStation == radioStation)&&const DeepCollectionEquality().equals(other.radioStations, radioStations)&&(identical(other.currentIndex, currentIndex) || other.currentIndex == currentIndex)&&(identical(other.status, status) || other.status == status)&&(identical(other.volume, volume) || other.volume == volume)&&(identical(other.isFirstRadioStationPlay, isFirstRadioStationPlay) || other.isFirstRadioStationPlay == isFirstRadioStationPlay)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,radioStation,status,volume,isFirstRadioStationPlay,errorMessage);
+int get hashCode => Object.hash(runtimeType,radioStation,const DeepCollectionEquality().hash(radioStations),currentIndex,status,volume,isFirstRadioStationPlay,errorMessage);
 
 @override
 String toString() {
-  return 'RadioPlayerState(radioStation: $radioStation, status: $status, volume: $volume, isFirstRadioStationPlay: $isFirstRadioStationPlay, errorMessage: $errorMessage)';
+  return 'RadioPlayerState(radioStation: $radioStation, radioStations: $radioStations, currentIndex: $currentIndex, status: $status, volume: $volume, isFirstRadioStationPlay: $isFirstRadioStationPlay, errorMessage: $errorMessage)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $RadioPlayerStateCopyWith<$Res>  {
   factory $RadioPlayerStateCopyWith(RadioPlayerState value, $Res Function(RadioPlayerState) _then) = _$RadioPlayerStateCopyWithImpl;
 @useResult
 $Res call({
- RadioStation radioStation, RadioPlayerStatus status, double volume, bool isFirstRadioStationPlay, String? errorMessage
+ RadioStation radioStation, List<RadioStation> radioStations, int currentIndex, RadioPlayerStatus status, double volume, bool isFirstRadioStationPlay, String? errorMessage
 });
 
 
@@ -62,10 +62,12 @@ class _$RadioPlayerStateCopyWithImpl<$Res>
 
 /// Create a copy of RadioPlayerState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? radioStation = null,Object? status = null,Object? volume = null,Object? isFirstRadioStationPlay = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? radioStation = null,Object? radioStations = null,Object? currentIndex = null,Object? status = null,Object? volume = null,Object? isFirstRadioStationPlay = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 radioStation: null == radioStation ? _self.radioStation : radioStation // ignore: cast_nullable_to_non_nullable
-as RadioStation,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as RadioStation,radioStations: null == radioStations ? _self.radioStations : radioStations // ignore: cast_nullable_to_non_nullable
+as List<RadioStation>,currentIndex: null == currentIndex ? _self.currentIndex : currentIndex // ignore: cast_nullable_to_non_nullable
+as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as RadioPlayerStatus,volume: null == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
 as double,isFirstRadioStationPlay: null == isFirstRadioStationPlay ? _self.isFirstRadioStationPlay : isFirstRadioStationPlay // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -160,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RadioStation radioStation,  RadioPlayerStatus status,  double volume,  bool isFirstRadioStationPlay,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RadioStation radioStation,  List<RadioStation> radioStations,  int currentIndex,  RadioPlayerStatus status,  double volume,  bool isFirstRadioStationPlay,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RadioPlayerState() when $default != null:
-return $default(_that.radioStation,_that.status,_that.volume,_that.isFirstRadioStationPlay,_that.errorMessage);case _:
+return $default(_that.radioStation,_that.radioStations,_that.currentIndex,_that.status,_that.volume,_that.isFirstRadioStationPlay,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -181,10 +183,10 @@ return $default(_that.radioStation,_that.status,_that.volume,_that.isFirstRadioS
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RadioStation radioStation,  RadioPlayerStatus status,  double volume,  bool isFirstRadioStationPlay,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RadioStation radioStation,  List<RadioStation> radioStations,  int currentIndex,  RadioPlayerStatus status,  double volume,  bool isFirstRadioStationPlay,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _RadioPlayerState():
-return $default(_that.radioStation,_that.status,_that.volume,_that.isFirstRadioStationPlay,_that.errorMessage);}
+return $default(_that.radioStation,_that.radioStations,_that.currentIndex,_that.status,_that.volume,_that.isFirstRadioStationPlay,_that.errorMessage);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -198,10 +200,10 @@ return $default(_that.radioStation,_that.status,_that.volume,_that.isFirstRadioS
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RadioStation radioStation,  RadioPlayerStatus status,  double volume,  bool isFirstRadioStationPlay,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RadioStation radioStation,  List<RadioStation> radioStations,  int currentIndex,  RadioPlayerStatus status,  double volume,  bool isFirstRadioStationPlay,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _RadioPlayerState() when $default != null:
-return $default(_that.radioStation,_that.status,_that.volume,_that.isFirstRadioStationPlay,_that.errorMessage);case _:
+return $default(_that.radioStation,_that.radioStations,_that.currentIndex,_that.status,_that.volume,_that.isFirstRadioStationPlay,_that.errorMessage);case _:
   return null;
 
 }
@@ -212,11 +214,19 @@ return $default(_that.radioStation,_that.status,_that.volume,_that.isFirstRadioS
 /// @nodoc
 
 
-class _RadioPlayerState implements RadioPlayerState {
-  const _RadioPlayerState({required this.radioStation, this.status = RadioPlayerStatus.initial, this.volume = 0.7, this.isFirstRadioStationPlay = true, this.errorMessage});
+class _RadioPlayerState extends RadioPlayerState {
+  const _RadioPlayerState({required this.radioStation, final  List<RadioStation> radioStations = const [], this.currentIndex = 0, this.status = RadioPlayerStatus.initial, this.volume = 0.7, this.isFirstRadioStationPlay = true, this.errorMessage}): _radioStations = radioStations,super._();
   
 
 @override final  RadioStation radioStation;
+ final  List<RadioStation> _radioStations;
+@override@JsonKey() List<RadioStation> get radioStations {
+  if (_radioStations is EqualUnmodifiableListView) return _radioStations;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_radioStations);
+}
+
+@override@JsonKey() final  int currentIndex;
 @override@JsonKey() final  RadioPlayerStatus status;
 @override@JsonKey() final  double volume;
 @override@JsonKey() final  bool isFirstRadioStationPlay;
@@ -232,16 +242,16 @@ _$RadioPlayerStateCopyWith<_RadioPlayerState> get copyWith => __$RadioPlayerStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RadioPlayerState&&(identical(other.radioStation, radioStation) || other.radioStation == radioStation)&&(identical(other.status, status) || other.status == status)&&(identical(other.volume, volume) || other.volume == volume)&&(identical(other.isFirstRadioStationPlay, isFirstRadioStationPlay) || other.isFirstRadioStationPlay == isFirstRadioStationPlay)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RadioPlayerState&&(identical(other.radioStation, radioStation) || other.radioStation == radioStation)&&const DeepCollectionEquality().equals(other._radioStations, _radioStations)&&(identical(other.currentIndex, currentIndex) || other.currentIndex == currentIndex)&&(identical(other.status, status) || other.status == status)&&(identical(other.volume, volume) || other.volume == volume)&&(identical(other.isFirstRadioStationPlay, isFirstRadioStationPlay) || other.isFirstRadioStationPlay == isFirstRadioStationPlay)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,radioStation,status,volume,isFirstRadioStationPlay,errorMessage);
+int get hashCode => Object.hash(runtimeType,radioStation,const DeepCollectionEquality().hash(_radioStations),currentIndex,status,volume,isFirstRadioStationPlay,errorMessage);
 
 @override
 String toString() {
-  return 'RadioPlayerState(radioStation: $radioStation, status: $status, volume: $volume, isFirstRadioStationPlay: $isFirstRadioStationPlay, errorMessage: $errorMessage)';
+  return 'RadioPlayerState(radioStation: $radioStation, radioStations: $radioStations, currentIndex: $currentIndex, status: $status, volume: $volume, isFirstRadioStationPlay: $isFirstRadioStationPlay, errorMessage: $errorMessage)';
 }
 
 
@@ -252,7 +262,7 @@ abstract mixin class _$RadioPlayerStateCopyWith<$Res> implements $RadioPlayerSta
   factory _$RadioPlayerStateCopyWith(_RadioPlayerState value, $Res Function(_RadioPlayerState) _then) = __$RadioPlayerStateCopyWithImpl;
 @override @useResult
 $Res call({
- RadioStation radioStation, RadioPlayerStatus status, double volume, bool isFirstRadioStationPlay, String? errorMessage
+ RadioStation radioStation, List<RadioStation> radioStations, int currentIndex, RadioPlayerStatus status, double volume, bool isFirstRadioStationPlay, String? errorMessage
 });
 
 
@@ -269,10 +279,12 @@ class __$RadioPlayerStateCopyWithImpl<$Res>
 
 /// Create a copy of RadioPlayerState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? radioStation = null,Object? status = null,Object? volume = null,Object? isFirstRadioStationPlay = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? radioStation = null,Object? radioStations = null,Object? currentIndex = null,Object? status = null,Object? volume = null,Object? isFirstRadioStationPlay = null,Object? errorMessage = freezed,}) {
   return _then(_RadioPlayerState(
 radioStation: null == radioStation ? _self.radioStation : radioStation // ignore: cast_nullable_to_non_nullable
-as RadioStation,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as RadioStation,radioStations: null == radioStations ? _self._radioStations : radioStations // ignore: cast_nullable_to_non_nullable
+as List<RadioStation>,currentIndex: null == currentIndex ? _self.currentIndex : currentIndex // ignore: cast_nullable_to_non_nullable
+as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as RadioPlayerStatus,volume: null == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
 as double,isFirstRadioStationPlay: null == isFirstRadioStationPlay ? _self.isFirstRadioStationPlay : isFirstRadioStationPlay // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable

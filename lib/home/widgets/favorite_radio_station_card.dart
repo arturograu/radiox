@@ -42,7 +42,10 @@ class FavoritesSection extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          RadioPlayerPage.route(radioStation),
+                          RadioPlayerPage.route(
+                            radioStation,
+                            radioStations: state.favoriteRadioStations,
+                          ),
                         );
                       },
                     ),

@@ -7,15 +7,21 @@ import 'package:user_repository/user_repository.dart';
 class RadioPlayerPage extends StatelessWidget {
   const RadioPlayerPage({
     required this.radioStation,
+    this.radioStations = const [],
     super.key,
   });
 
   final RadioStation radioStation;
+  final List<RadioStation> radioStations;
 
-  static Route<void> route(RadioStation radioStation) {
+  static Route<void> route(
+    RadioStation radioStation, {
+    List<RadioStation> radioStations = const [],
+  }) {
     return MaterialPageRoute(
       builder: (context) => RadioPlayerPage(
         radioStation: radioStation,
+        radioStations: radioStations,
       ),
     );
   }
@@ -33,6 +39,7 @@ class RadioPlayerPage extends StatelessWidget {
       body: BlocProvider(
         create: (context) => RadioPlayerCubit(
           radioStation: radioStation,
+          radioStations: radioStations,
           userRepository: context.read<UserRepository>(),
         ),
         child: const RadioPlayerView(),

@@ -12,12 +12,19 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
   RadioPlayerCubit({
     required RadioStation radioStation,
     required UserRepository userRepository,
+    List<RadioStation> radioStations = const [],
     AudioPlayer? audioPlayer,
   }) : _audioPlayer = audioPlayer ?? AudioPlayer(),
        _userRepository = userRepository,
        super(
          RadioPlayerState(
            radioStation: radioStation,
+           radioStations: radioStations,
+           currentIndex: radioStations.isEmpty
+               ? 0
+               : radioStations
+                     .indexWhere((station) => station.id == radioStation.id)
+                     .clamp(0, radioStations.length - 1),
          ),
        ) {
     _playerStateSubscription = _audioPlayer.playerStateStream.listen(
@@ -100,6 +107,45 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
     await _userRepository.removeFavoriteRadioStation(state.radioStation.id);
   }
 
+  Future<void> playNext() async {
+    if (!state.hasNext) return;
+
+    final nextIndex = state.currentIndex + 1;
+    final nextStation = state.radioStations[nextIndex];
+    await _switchToStation(nextStation, nextIndex);
+  }
+
+  Future<void> playPrevious() async {
+    if (!state.hasPrevious) return;
+
+    final previousIndex = state.currentIndex - 1;
+    final previousStation = state.radioStations[previousIndex];
+    await _switchToStation(previousStation, previousIndex);
+  }
+
+  Future<void> _switchToStation(RadioStation station, int index) async {
+    try {
+      emit(
+        state.copyWith(
+          radioStation: station,
+          currentIndex: index,
+          status: RadioPlayerStatus.loading,
+          errorMessage: null,
+        ),
+      );
+
+      await _audioPlayer.setUrl(station.url);
+      emit(state.copyWith(status: RadioPlayerStatus.initial));
+    } on Exception catch (error) {
+      emit(
+        state.copyWith(
+          status: RadioPlayerStatus.error,
+          errorMessage: 'Failed to switch station: $error',
+        ),
+      );
+    }
+  }
+
   @override
   Future<void> close() async {
     await _audioPlayer.dispose();
@@ -112,11 +158,18 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
 sealed class RadioPlayerState with _$RadioPlayerState {
   const factory RadioPlayerState({
     required RadioStation radioStation,
+    @Default([]) List<RadioStation> radioStations,
+    @Default(0) int currentIndex,
     @Default(RadioPlayerStatus.initial) RadioPlayerStatus status,
     @Default(0.7) double volume,
     @Default(true) bool isFirstRadioStationPlay,
     String? errorMessage,
   }) = _RadioPlayerState;
+  const RadioPlayerState._();
+
+  bool get hasNext =>
+      radioStations.isNotEmpty && currentIndex < radioStations.length - 1;
+  bool get hasPrevious => radioStations.isNotEmpty && currentIndex > 0;
 }
 
 enum RadioPlayerStatus {

@@ -195,56 +195,121 @@ class _PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RadioPlayerCubit, RadioPlayerState>(
-      buildWhen: (previous, current) => previous.status != current.status,
+      buildWhen: (previous, current) =>
+          previous.status != current.status ||
+          previous.currentIndex != current.currentIndex ||
+          previous.radioStations.length != current.radioStations.length,
       builder: (context, state) {
         final cubit = context.read<RadioPlayerCubit>();
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
+            // Previous button
+            if (state.radioStations.isNotEmpty) ...[
+              _ControlButton(
+                icon: Icons.skip_previous,
+                onPressed: state.hasPrevious && !state.status.isLoading
+                    ? cubit.playPrevious
+                    : null,
+                size: 60,
+                iconSize: 24,
               ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(40),
-                  onTap: state.status.isLoading ? null : cubit.handlePlayPause,
-                  child: Center(
-                    child: state.status.isLoading
-                        ? SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 3,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.grey.shade700,
-                              ),
-                            ),
-                          )
-                        : Icon(
-                            state.status.icon,
-                            size: 32,
-                            color: Colors.grey.shade700,
-                          ),
-                  ),
-                ),
-              ),
+              const SizedBox(width: 24),
+            ],
+
+            // Main play/pause button
+            _ControlButton(
+              icon: state.status.icon,
+              onPressed: state.status.isLoading ? null : cubit.handlePlayPause,
+              size: 80,
+              iconSize: 32,
+              isPrimary: true,
+              isLoading: state.status.isLoading,
             ),
+
+            // Next button
+            if (state.radioStations.isNotEmpty) ...[
+              const SizedBox(width: 24),
+              _ControlButton(
+                icon: Icons.skip_next,
+                onPressed: state.hasNext && !state.status.isLoading
+                    ? cubit.playNext
+                    : null,
+                size: 60,
+                iconSize: 24,
+              ),
+            ],
           ],
         );
       },
+    );
+  }
+}
+
+class _ControlButton extends StatelessWidget {
+  const _ControlButton({
+    required this.icon,
+    required this.onPressed,
+    required this.size,
+    required this.iconSize,
+    this.isPrimary = false,
+    this.isLoading = false,
+  });
+
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final double size;
+  final double iconSize;
+  final bool isPrimary;
+  final bool isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.grey.shade300,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: isPrimary ? 20 : 8,
+            offset: Offset(0, isPrimary ? 8 : 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(size / 2),
+          onTap: onPressed,
+          child: Center(
+            child: isLoading
+                ? SizedBox(
+                    width: iconSize * 0.75,
+                    height: iconSize * 0.75,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.grey.shade700,
+                      ),
+                    ),
+                  )
+                : Icon(
+                    icon,
+                    size: iconSize,
+                    color: onPressed != null
+                        ? Colors.grey.shade700
+                        : Colors.grey.shade400,
+                  ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -309,5 +374,21 @@ extension on RadioPlayerStatus {
     RadioPlayerStatus.playing => 'LIVE',
     RadioPlayerStatus.paused => 'PAUSED',
     RadioPlayerStatus.error => 'ERROR',
+  };
+
+  Color get color => switch (this) {
+    RadioPlayerStatus.playing => Colors.green,
+    RadioPlayerStatus.paused => Colors.orange,
+    RadioPlayerStatus.initial => Colors.grey,
+    RadioPlayerStatus.loading => Colors.blue,
+    RadioPlayerStatus.error => Colors.red,
+  };
+
+  String get text => switch (this) {
+    RadioPlayerStatus.initial => 'Ready to play',
+    RadioPlayerStatus.loading => 'Loading...',
+    RadioPlayerStatus.playing => 'Now playing',
+    RadioPlayerStatus.paused => 'Paused',
+    RadioPlayerStatus.error => 'Error occurred',
   };
 }
