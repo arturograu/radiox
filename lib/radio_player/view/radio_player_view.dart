@@ -27,14 +27,12 @@ class RadioPlayerView extends StatelessWidget {
           children: [
             SizedBox(height: 20),
             _LargeStationImage(),
-            SizedBox(height: 24),
-            _StationTitleWithFavorite(),
+            SizedBox(height: 32),
+            _StationTitle(),
             SizedBox(height: 32),
             _PlayerControls(),
             SizedBox(height: 32),
             VolumeControls(),
-            SizedBox(height: 24),
-            _StatusDisplay(),
             SizedBox(height: 20),
           ],
         ),
@@ -122,8 +120,8 @@ class _LargeStationImage extends StatelessWidget {
   }
 }
 
-class _StationTitleWithFavorite extends StatelessWidget {
-  const _StationTitleWithFavorite();
+class _StationTitle extends StatelessWidget {
+  const _StationTitle();
 
   @override
   Widget build(BuildContext context) {
@@ -132,41 +130,26 @@ class _StationTitleWithFavorite extends StatelessWidget {
           previous.radioStation != current.radioStation,
       builder: (context, state) {
         final theme = Theme.of(context);
-
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
+            const _StatusDisplay(),
+            const SizedBox(height: 4),
+            Row(
               children: [
-                Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 280),
-                    child: Text(
-                      state.radioStation.name,
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Text(
+                    state.radioStation.name,
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Positioned(
-                  right: 0,
-                  top: -7,
-                  child: _FavoriteIcon(radioStation: state.radioStation),
-                ),
+                _FavoriteIcon(radioStation: state.radioStation),
               ],
-            ),
-            const SizedBox(height: 4),
-            Text(
-              state.radioStation.url,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
             ),
           ],
         );
@@ -276,24 +259,27 @@ class _StatusDisplay extends StatelessWidget {
           previous.status != current.status ||
           previous.errorMessage != current.errorMessage,
       builder: (context, state) {
-        final theme = Theme.of(context);
-
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: state.status.color.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: state.status.color.withValues(alpha: 0.3),
+        return Row(
+          children: [
+            Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: state.status.dotColor,
+                shape: BoxShape.circle,
+              ),
             ),
-          ),
-          child: Text(
-            state.status.text,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: state.status.color,
-              fontWeight: FontWeight.w500,
+            const SizedBox(width: 8),
+            Text(
+              state.status.displayText,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                letterSpacing: 0.5,
+              ),
             ),
-          ),
+          ],
         );
       },
     );
@@ -309,19 +295,19 @@ extension on RadioPlayerStatus {
     RadioPlayerStatus.error => Icons.error,
   };
 
-  Color get color => switch (this) {
-    RadioPlayerStatus.playing => Colors.green,
+  Color get dotColor => switch (this) {
+    RadioPlayerStatus.playing => Colors.red,
     RadioPlayerStatus.paused => Colors.orange,
     RadioPlayerStatus.initial => Colors.grey,
     RadioPlayerStatus.loading => Colors.blue,
     RadioPlayerStatus.error => Colors.red,
   };
 
-  String get text => switch (this) {
-    RadioPlayerStatus.initial => 'Ready to play',
-    RadioPlayerStatus.loading => 'Loading...',
-    RadioPlayerStatus.playing => 'Now playing',
-    RadioPlayerStatus.paused => 'Paused',
-    RadioPlayerStatus.error => 'Error occurred',
+  String get displayText => switch (this) {
+    RadioPlayerStatus.initial => 'READY',
+    RadioPlayerStatus.loading => 'LOADING',
+    RadioPlayerStatus.playing => 'LIVE',
+    RadioPlayerStatus.paused => 'PAUSED',
+    RadioPlayerStatus.error => 'ERROR',
   };
 }
