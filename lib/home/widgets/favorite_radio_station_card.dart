@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
 import 'package:radiox/app/app.dart';
 import 'package:radiox/radio_player/radio_player.dart';
+import 'package:radiox/shared/widgets/widgets.dart';
 
 class FavoritesSection extends StatelessWidget {
   const FavoritesSection({super.key});
@@ -112,44 +112,9 @@ class FavoriteRadioStationCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: radioStation.favicon != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
-                          child: CachedNetworkImage(
-                            height: 48,
-                            width: 48,
-                            fit: BoxFit.cover,
-                            imageUrl: radioStation.favicon!,
-                            progressIndicatorBuilder:
-                                (context, url, progress) => Center(
-                                  child: SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      value: progress.progress,
-                                    ),
-                                  ),
-                                ),
-                            errorWidget: (context, url, error) => Icon(
-                              Icons.radio,
-                              color: theme.colorScheme.primary,
-                              size: 24,
-                            ),
-                          ),
-                        )
-                      : Icon(
-                          Icons.radio,
-                          color: theme.colorScheme.primary,
-                          size: 24,
-                        ),
+                RadioStationImage(
+                  imageUrl: radioStation.favicon,
+                  size: 48,
                 ),
                 const SizedBox(height: 8),
                 Text(

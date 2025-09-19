@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radiox/radio_player/radio_player.dart';
+import 'package:radiox/shared/widgets/widgets.dart';
 
 class RadioPlayerView extends StatelessWidget {
   const RadioPlayerView({super.key});
@@ -55,18 +56,9 @@ class _RadioStationInfo extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(60),
-                  ),
-                  child: Icon(
-                    Icons.radio,
-                    size: 60,
-                    color: theme.colorScheme.primary,
-                  ),
+                RadioStationImage(
+                  imageUrl: state.radioStation.favicon,
+                  size: 120,
                 ),
                 const SizedBox(height: 16),
                 Text(

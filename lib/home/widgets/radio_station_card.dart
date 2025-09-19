@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:radiox/shared/widgets/widgets.dart';
 
 const _kIconSize = 48.0;
 const _kCardRadius = 12.0;
@@ -33,44 +33,10 @@ class RadioStationCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              Container(
-                width: _kIconSize,
-                height: _kIconSize,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(_kCardRadius),
-                ),
-                child: favicon != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(_kCardRadius),
-                        child: CachedNetworkImage(
-                          height: _kIconSize,
-                          width: _kIconSize,
-                          fit: BoxFit.cover,
-                          imageUrl: favicon!,
-                          progressIndicatorBuilder: (context, url, progress) =>
-                              Center(
-                                child: SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    value: progress.progress,
-                                  ),
-                                ),
-                              ),
-                          errorWidget: (context, url, error) => Icon(
-                            Icons.radio,
-                            color: theme.colorScheme.primary,
-                            size: 24,
-                          ),
-                        ),
-                      )
-                    : Icon(
-                        Icons.radio,
-                        color: theme.colorScheme.primary,
-                        size: 24,
-                      ),
+              RadioStationImage(
+                imageUrl: favicon,
+                size: _kIconSize,
+                borderRadius: _kCardRadius,
               ),
               const SizedBox(width: 16),
               Expanded(
