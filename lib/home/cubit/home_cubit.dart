@@ -18,7 +18,7 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(status: HomeStatus.loaded, radioStations: radioStations),
       );
-    } catch (_) {
+    } on Exception catch (_) {
       emit(state.copyWith(status: HomeStatus.error));
     }
   }

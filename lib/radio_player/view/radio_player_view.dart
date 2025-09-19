@@ -18,22 +18,28 @@ class RadioPlayerView extends StatelessWidget {
           );
         }
       },
-      child: const Padding(
-        padding: EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _RadioStationInfo(),
-            SizedBox(height: 24),
-            FavoriteButton(),
-            SizedBox(height: 48),
-            _PlayerControls(),
-            SizedBox(height: 32),
-            VolumeControls(),
-            SizedBox(height: 32),
-            _StatusDisplay(),
-          ],
-        ),
+      child: BlocBuilder<RadioPlayerCubit, RadioPlayerState>(
+        buildWhen: (previous, current) =>
+            previous.radioStation != current.radioStation,
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const _RadioStationInfo(),
+                const SizedBox(height: 24),
+                FavoriteButton(radioStation: state.radioStation),
+                const SizedBox(height: 48),
+                const _PlayerControls(),
+                const SizedBox(height: 32),
+                const VolumeControls(),
+                const SizedBox(height: 32),
+                const _StatusDisplay(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

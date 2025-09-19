@@ -53,36 +53,6 @@ void main() {
       );
     });
 
-    group('user stream', () {
-      test('emits initial user', () async {
-        final user = await userRepository.user.first;
-
-        expect(user.favoriteRadioStations, isEmpty);
-      });
-
-      test('emits updated user when favorites change', () async {
-        final userStream = userRepository.user;
-        final users = <User>[];
-
-        // Listen to user changes
-        final subscription = userStream.listen(users.add);
-
-        // Wait for initial user
-        await Future.delayed(const Duration(milliseconds: 10));
-
-        // Add a favorite
-        await userRepository.addFavoriteRadioStation(testRadioStation1);
-
-        // Wait for stream to emit
-        await Future.delayed(const Duration(milliseconds: 10));
-
-        expect(users, hasLength(2)); // Initial + updated
-        expect(users.last.favoriteRadioStations, equals([testRadioStation1]));
-
-        await subscription.cancel();
-      });
-    });
-
     group('favorite radio stations', () {
       test('starts with empty favorites', () {
         expect(

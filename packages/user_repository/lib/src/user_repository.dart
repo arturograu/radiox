@@ -25,7 +25,6 @@ class UserRepository {
   UserRepository({SharedPreferences? sharedPreferences})
     : _sharedPreferences = sharedPreferences,
       _favoriteRadioStations = <FavoriteRadioStation>[] {
-    _userController = StreamController<User>.broadcast();
     _favoritesController = StreamController<List<RadioStation>>.broadcast();
   }
 
@@ -33,9 +32,7 @@ class UserRepository {
 
   final SharedPreferences? _sharedPreferences;
   final List<FavoriteRadioStation> _favoriteRadioStations;
-  late final StreamController<User> _userController;
   late final StreamController<List<RadioStation>> _favoritesController;
-  late User _currentUser;
 
   /// Initializes the repository by loading data from local storage.
   Future<void> initialize() async {
@@ -53,19 +50,10 @@ class UserRepository {
       ..clear()
       ..addAll(savedFavorites);
 
-    _currentUser = User(
-      favoriteRadioStations: _favoriteRadioStations
-          .map((fav) => fav.toRadioStation())
-          .toList(),
-    );
-    _userController.add(_currentUser);
     _favoritesController.add(
       _favoriteRadioStations.map((fav) => fav.toRadioStation()).toList(),
     );
   }
-
-  /// Provides a [Stream] of the current user.
-  Stream<User> get user => _userController.stream;
 
   /// Adds a radio station to the user's favorites.
   Future<void> addFavoriteRadioStation(RadioStation radioStation) async {
@@ -77,7 +65,7 @@ class UserRepository {
       );
       _favoriteRadioStations.add(favoriteRadioStation);
       await _saveToStorage();
-      _updateUserAndNotify();
+      _notifyFavoritesChanged();
     }
   }
 
@@ -89,7 +77,7 @@ class UserRepository {
     );
     if (_favoriteRadioStations.length < initialLength) {
       await _saveToStorage();
-      _updateUserAndNotify();
+      _notifyFavoritesChanged();
     }
   }
 
@@ -115,13 +103,7 @@ class UserRepository {
     await prefs.setStringList(_favoritesKey, favoritesJson);
   }
 
-  void _updateUserAndNotify() {
-    _currentUser = _currentUser.copyWith(
-      favoriteRadioStations: _favoriteRadioStations
-          .map((fav) => fav.toRadioStation())
-          .toList(),
-    );
-    _userController.add(_currentUser);
+  void _notifyFavoritesChanged() {
     _favoritesController.add(
       _favoriteRadioStations.map((fav) => fav.toRadioStation()).toList(),
     );
@@ -129,7 +111,6 @@ class UserRepository {
 
   /// Disposes the repository and closes streams.
   Future<void> dispose() async {
-    await _userController.close();
     await _favoritesController.close();
   }
 }

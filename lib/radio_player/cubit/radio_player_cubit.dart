@@ -18,7 +18,6 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
        super(
          RadioPlayerState(
            radioStation: radioStation,
-           isFavorite: userRepository.isFavoriteRadioStation(radioStation.id),
          ),
        ) {
     _playerStateSubscription = _audioPlayer.playerStateStream.listen(
@@ -84,23 +83,12 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
     }
   }
 
-  Future<void> toggleFavorite() async {
-    try {
-      if (state.isFavorite) {
-        await _userRepository.removeFavoriteRadioStation(state.radioStation.id);
-        emit(state.copyWith(isFavorite: false));
-      } else {
-        await _userRepository.addFavoriteRadioStation(state.radioStation);
-        emit(state.copyWith(isFavorite: true));
-      }
-    } on Exception catch (error) {
-      emit(
-        state.copyWith(
-          status: RadioPlayerStatus.error,
-          errorMessage: 'Failed to update favorite: $error',
-        ),
-      );
-    }
+  Future<void> markAsFavorite() async {
+    await _userRepository.addFavoriteRadioStation(state.radioStation);
+  }
+
+  Future<void> unmarkAsFavorite() async {
+    await _userRepository.removeFavoriteRadioStation(state.radioStation.id);
   }
 
   @override
@@ -117,7 +105,6 @@ sealed class RadioPlayerState with _$RadioPlayerState {
     required RadioStation radioStation,
     @Default(RadioPlayerStatus.initial) RadioPlayerStatus status,
     @Default(0.7) double volume,
-    @Default(false) bool isFavorite,
     String? errorMessage,
   }) = _RadioPlayerState;
 }

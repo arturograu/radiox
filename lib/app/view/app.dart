@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
+import 'package:radiox/app/app.dart';
 import 'package:radiox/home/home.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -22,7 +23,10 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: _radioStationsRepository),
         RepositoryProvider.value(value: _userRepository),
       ],
-      child: const _AppView(),
+      child: BlocProvider(
+        create: (_) => AppCubit(userRepository: _userRepository),
+        child: const _AppView(),
+      ),
     );
   }
 }
