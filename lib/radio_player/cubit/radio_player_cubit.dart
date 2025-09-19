@@ -78,16 +78,6 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
     }
   }
 
-  void volumeUp() {
-    final newVolume = (state.volume + 0.1).clamp(0.0, 1.0);
-    setVolume(newVolume);
-  }
-
-  void volumeDown() {
-    final newVolume = (state.volume - 0.1).clamp(0.0, 1.0);
-    setVolume(newVolume);
-  }
-
   void setVolume(double volume) {
     try {
       _audioPlayer.setVolume(volume);
