@@ -23,7 +23,13 @@ class RadioPlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(radioStation.name), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Now Playing'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        foregroundColor: Colors.black,
+      ),
       body: BlocProvider(
         create: (context) => RadioPlayerCubit(
           radioStation: radioStation,
