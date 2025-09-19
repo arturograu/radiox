@@ -64,6 +64,30 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
     }
   }
 
+  void volumeUp() {
+    final newVolume = (state.volume + 0.1).clamp(0.0, 1.0);
+    setVolume(newVolume);
+  }
+
+  void volumeDown() {
+    final newVolume = (state.volume - 0.1).clamp(0.0, 1.0);
+    setVolume(newVolume);
+  }
+
+  void setVolume(double volume) {
+    try {
+      _audioPlayer.setVolume(volume);
+      emit(state.copyWith(volume: volume));
+    } on Exception catch (error) {
+      emit(
+        state.copyWith(
+          status: RadioPlayerStatus.error,
+          errorMessage: 'Failed to set volume: $error',
+        ),
+      );
+    }
+  }
+
   @override
   Future<void> close() async {
     await _audioPlayer.dispose();
@@ -77,6 +101,7 @@ sealed class RadioPlayerState with _$RadioPlayerState {
   const factory RadioPlayerState({
     required RadioStation radioStation,
     @Default(RadioPlayerStatus.initial) RadioPlayerStatus status,
+    @Default(0.7) double volume,
     String? errorMessage,
   }) = _RadioPlayerState;
 }

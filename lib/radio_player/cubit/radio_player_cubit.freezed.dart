@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RadioPlayerState {
 
- RadioStation get radioStation; RadioPlayerStatus get status; String? get errorMessage;
+ RadioStation get radioStation; RadioPlayerStatus get status; double get volume; String? get errorMessage;
 /// Create a copy of RadioPlayerState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $RadioPlayerStateCopyWith<RadioPlayerState> get copyWith => _$RadioPlayerStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RadioPlayerState&&(identical(other.radioStation, radioStation) || other.radioStation == radioStation)&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RadioPlayerState&&(identical(other.radioStation, radioStation) || other.radioStation == radioStation)&&(identical(other.status, status) || other.status == status)&&(identical(other.volume, volume) || other.volume == volume)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,radioStation,status,errorMessage);
+int get hashCode => Object.hash(runtimeType,radioStation,status,volume,errorMessage);
 
 @override
 String toString() {
-  return 'RadioPlayerState(radioStation: $radioStation, status: $status, errorMessage: $errorMessage)';
+  return 'RadioPlayerState(radioStation: $radioStation, status: $status, volume: $volume, errorMessage: $errorMessage)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $RadioPlayerStateCopyWith<$Res>  {
   factory $RadioPlayerStateCopyWith(RadioPlayerState value, $Res Function(RadioPlayerState) _then) = _$RadioPlayerStateCopyWithImpl;
 @useResult
 $Res call({
- RadioStation radioStation, RadioPlayerStatus status, String? errorMessage
+ RadioStation radioStation, RadioPlayerStatus status, double volume, String? errorMessage
 });
 
 
@@ -62,11 +62,12 @@ class _$RadioPlayerStateCopyWithImpl<$Res>
 
 /// Create a copy of RadioPlayerState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? radioStation = null,Object? status = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? radioStation = null,Object? status = null,Object? volume = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 radioStation: null == radioStation ? _self.radioStation : radioStation // ignore: cast_nullable_to_non_nullable
 as RadioStation,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as RadioPlayerStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as RadioPlayerStatus,volume: null == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
+as double,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -158,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RadioStation radioStation,  RadioPlayerStatus status,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RadioStation radioStation,  RadioPlayerStatus status,  double volume,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RadioPlayerState() when $default != null:
-return $default(_that.radioStation,_that.status,_that.errorMessage);case _:
+return $default(_that.radioStation,_that.status,_that.volume,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -179,10 +180,10 @@ return $default(_that.radioStation,_that.status,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RadioStation radioStation,  RadioPlayerStatus status,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RadioStation radioStation,  RadioPlayerStatus status,  double volume,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _RadioPlayerState():
-return $default(_that.radioStation,_that.status,_that.errorMessage);}
+return $default(_that.radioStation,_that.status,_that.volume,_that.errorMessage);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -196,10 +197,10 @@ return $default(_that.radioStation,_that.status,_that.errorMessage);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RadioStation radioStation,  RadioPlayerStatus status,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RadioStation radioStation,  RadioPlayerStatus status,  double volume,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _RadioPlayerState() when $default != null:
-return $default(_that.radioStation,_that.status,_that.errorMessage);case _:
+return $default(_that.radioStation,_that.status,_that.volume,_that.errorMessage);case _:
   return null;
 
 }
@@ -211,11 +212,12 @@ return $default(_that.radioStation,_that.status,_that.errorMessage);case _:
 
 
 class _RadioPlayerState implements RadioPlayerState {
-  const _RadioPlayerState({required this.radioStation, this.status = RadioPlayerStatus.initial, this.errorMessage});
+  const _RadioPlayerState({required this.radioStation, this.status = RadioPlayerStatus.initial, this.volume = 0.7, this.errorMessage});
   
 
 @override final  RadioStation radioStation;
 @override@JsonKey() final  RadioPlayerStatus status;
+@override@JsonKey() final  double volume;
 @override final  String? errorMessage;
 
 /// Create a copy of RadioPlayerState
@@ -228,16 +230,16 @@ _$RadioPlayerStateCopyWith<_RadioPlayerState> get copyWith => __$RadioPlayerStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RadioPlayerState&&(identical(other.radioStation, radioStation) || other.radioStation == radioStation)&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RadioPlayerState&&(identical(other.radioStation, radioStation) || other.radioStation == radioStation)&&(identical(other.status, status) || other.status == status)&&(identical(other.volume, volume) || other.volume == volume)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,radioStation,status,errorMessage);
+int get hashCode => Object.hash(runtimeType,radioStation,status,volume,errorMessage);
 
 @override
 String toString() {
-  return 'RadioPlayerState(radioStation: $radioStation, status: $status, errorMessage: $errorMessage)';
+  return 'RadioPlayerState(radioStation: $radioStation, status: $status, volume: $volume, errorMessage: $errorMessage)';
 }
 
 
@@ -248,7 +250,7 @@ abstract mixin class _$RadioPlayerStateCopyWith<$Res> implements $RadioPlayerSta
   factory _$RadioPlayerStateCopyWith(_RadioPlayerState value, $Res Function(_RadioPlayerState) _then) = __$RadioPlayerStateCopyWithImpl;
 @override @useResult
 $Res call({
- RadioStation radioStation, RadioPlayerStatus status, String? errorMessage
+ RadioStation radioStation, RadioPlayerStatus status, double volume, String? errorMessage
 });
 
 
@@ -265,11 +267,12 @@ class __$RadioPlayerStateCopyWithImpl<$Res>
 
 /// Create a copy of RadioPlayerState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? radioStation = null,Object? status = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? radioStation = null,Object? status = null,Object? volume = null,Object? errorMessage = freezed,}) {
   return _then(_RadioPlayerState(
 radioStation: null == radioStation ? _self.radioStation : radioStation // ignore: cast_nullable_to_non_nullable
 as RadioStation,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as RadioPlayerStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as RadioPlayerStatus,volume: null == volume ? _self.volume : volume // ignore: cast_nullable_to_non_nullable
+as double,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

@@ -27,6 +27,8 @@ class RadioPlayerView extends StatelessWidget {
             SizedBox(height: 48),
             _PlayerControls(),
             SizedBox(height: 32),
+            VolumeControls(),
+            SizedBox(height: 32),
             _StatusDisplay(),
           ],
         ),
