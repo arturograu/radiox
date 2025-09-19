@@ -11,6 +11,7 @@ _RadioStation _$RadioStationFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       name: json['name'] as String,
       url: json['url'] as String,
+      favicon: json['favicon'] as String?,
     );
 
 Map<String, dynamic> _$RadioStationToJson(_RadioStation instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$RadioStationToJson(_RadioStation instance) =>
       'id': instance.id,
       'name': instance.name,
       'url': instance.url,
+      'favicon': instance.favicon,
     };

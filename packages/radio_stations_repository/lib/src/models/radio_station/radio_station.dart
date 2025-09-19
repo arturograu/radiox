@@ -10,6 +10,7 @@ sealed class RadioStation with _$RadioStation {
     required String id,
     required String name,
     required String url,
+    String? favicon,
   }) = _RadioStation;
 
   factory RadioStation.fromJson(Map<String, dynamic> json) =>
@@ -18,6 +19,7 @@ sealed class RadioStation with _$RadioStation {
   factory RadioStation.fromApi(api.RadioStation radioStation) => RadioStation(
     id: radioStation.stationuuid,
     name: radioStation.name,
-    url: radioStation.urlResolved ?? radioStation.url ?? '',
+    url: radioStation.url,
+    favicon: radioStation.favicon,
   );
 }

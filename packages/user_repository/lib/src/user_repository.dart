@@ -1,3 +1,5 @@
+// ignore_for_file: document_ignores
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -39,18 +41,22 @@ class UserRepository {
   Future<void> initialize() async {
     final prefs = _sharedPreferences ?? await SharedPreferences.getInstance();
     final savedFavoritesJson = prefs.getStringList(_favoritesKey) ?? <String>[];
-    final savedFavorites = savedFavoritesJson
-        .map(
-          (json) => FavoriteRadioStation.fromJson(
-            jsonDecode(json) as Map<String, dynamic>,
-          ),
-        )
-        .toList();
+    var savedFavorites = <FavoriteRadioStation>[];
 
-    _favoriteRadioStations
-      ..clear()
-      ..addAll(savedFavorites);
+    try {
+      savedFavorites = savedFavoritesJson
+          .map(
+            (json) => FavoriteRadioStation.fromJson(
+              jsonDecode(json) as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+      // ignore: avoid_catching_errors
+    } on TypeError catch (_) {
+      await prefs.remove(_favoritesKey);
+    }
 
+    _favoriteRadioStations.addAll(savedFavorites);
     _favoritesController.add(
       _favoriteRadioStations.map((fav) => fav.toRadioStation()).toList(),
     );

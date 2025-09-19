@@ -11,8 +11,8 @@ sealed class RadioStation with _$RadioStation {
   const factory RadioStation({
     required String name,
     required String stationuuid,
+    required String url,
     String? changeuuid,
-    String? url,
     String? urlResolved,
     String? homepage,
     String? favicon,

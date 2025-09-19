@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 const _kIconSize = 48.0;
@@ -7,12 +8,14 @@ class RadioStationCard extends StatelessWidget {
   const RadioStationCard({
     required this.name,
     required this.url,
+    required this.favicon,
     required this.onTap,
     super.key,
   });
 
   final String name;
   final String url;
+  final String? favicon;
   final VoidCallback onTap;
 
   @override
@@ -37,11 +40,37 @@ class RadioStationCard extends StatelessWidget {
                   color: theme.colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(_kCardRadius),
                 ),
-                child: Icon(
-                  Icons.radio,
-                  color: theme.colorScheme.primary,
-                  size: 24,
-                ),
+                child: favicon != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(_kCardRadius),
+                        child: CachedNetworkImage(
+                          height: _kIconSize,
+                          width: _kIconSize,
+                          fit: BoxFit.cover,
+                          imageUrl: favicon!,
+                          progressIndicatorBuilder: (context, url, progress) =>
+                              Center(
+                                child: SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    value: progress.progress,
+                                  ),
+                                ),
+                              ),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.radio,
+                            color: theme.colorScheme.primary,
+                            size: 24,
+                          ),
+                        ),
+                      )
+                    : Icon(
+                        Icons.radio,
+                        color: theme.colorScheme.primary,
+                        size: 24,
+                      ),
               ),
               const SizedBox(width: 16),
               Expanded(

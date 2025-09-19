@@ -10,8 +10,8 @@ _RadioStation _$RadioStationFromJson(Map<String, dynamic> json) =>
     _RadioStation(
       name: json['name'] as String,
       stationuuid: json['stationuuid'] as String,
+      url: json['url'] as String,
       changeuuid: json['changeuuid'] as String?,
-      url: json['url'] as String?,
       urlResolved: json['url_resolved'] as String?,
       homepage: json['homepage'] as String?,
       favicon: json['favicon'] as String?,
@@ -65,8 +65,8 @@ Map<String, dynamic> _$RadioStationToJson(
 ) => <String, dynamic>{
   'name': instance.name,
   'stationuuid': instance.stationuuid,
-  'changeuuid': instance.changeuuid,
   'url': instance.url,
+  'changeuuid': instance.changeuuid,
   'url_resolved': instance.urlResolved,
   'homepage': instance.homepage,
   'favicon': instance.favicon,

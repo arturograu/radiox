@@ -53,6 +53,7 @@ class _SuccessView extends StatelessWidget {
               return RadioStationCard(
                 name: radioStation.name,
                 url: radioStation.url,
+                favicon: radioStation.favicon,
                 onTap: () {
                   Navigator.push(
                     context,

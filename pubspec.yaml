@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   bloc: ^9.0.0
+  cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
@@ -19,6 +20,7 @@ dependencies:
     path: ./packages/radio_browser_api_client
   radio_stations_repository:
     path: ./packages/radio_stations_repository
+  shared_preferences: ^2.3.3
   user_repository:
     path: ./packages/user_repository
 

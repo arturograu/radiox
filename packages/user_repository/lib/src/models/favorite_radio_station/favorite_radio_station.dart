@@ -14,6 +14,7 @@ sealed class FavoriteRadioStation with _$FavoriteRadioStation {
     required String id,
     required String name,
     required String url,
+    required String favicon,
     DateTime? dateAdded,
   }) = _FavoriteRadioStation;
 
@@ -25,15 +26,16 @@ sealed class FavoriteRadioStation with _$FavoriteRadioStation {
         id: radioStation.id,
         name: radioStation.name,
         url: radioStation.url,
+        favicon: radioStation.favicon ?? '',
         dateAdded: DateTime.now(),
       );
 }
 
 extension FavoriteRadioStationExtension on FavoriteRadioStation {
-  /// Converts this favorite radio station back to a RadioStation.
   RadioStation toRadioStation() => RadioStation(
     id: id,
     name: name,
     url: url,
+    favicon: favicon,
   );
 }
