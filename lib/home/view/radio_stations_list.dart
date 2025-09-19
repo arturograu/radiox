@@ -46,22 +46,30 @@ class _SuccessView extends StatelessWidget {
   Widget build(BuildContext context) {
     return radioStations.isEmpty
         ? const Center(child: Text('No radio stations found'))
-        : ListView.builder(
-            itemCount: radioStations.length,
-            itemBuilder: (context, index) {
-              final radioStation = radioStations[index];
-              return RadioStationCard(
-                name: radioStation.name,
-                url: radioStation.url,
-                favicon: radioStation.favicon,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    RadioPlayerPage.route(radioStation),
-                  );
-                },
-              );
-            },
+        : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+              ),
+              itemCount: radioStations.length,
+              itemBuilder: (context, index) {
+                final radioStation = radioStations[index];
+                return TrendingRadioCard(
+                  radioStation: radioStation,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      RadioPlayerPage.route(radioStation),
+                    );
+                  },
+                );
+              },
+            ),
           );
   }
 }

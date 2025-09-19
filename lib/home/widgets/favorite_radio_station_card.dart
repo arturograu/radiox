@@ -22,12 +22,12 @@ class FavoritesSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const _FavoritesSectionHeader(),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             SizedBox(
-              height: 120,
+              height: 60,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 itemCount: state.favoriteRadioStations.length,
                 itemBuilder: (context, index) {
                   final radioStation = state.favoriteRadioStations[index];
@@ -37,7 +37,7 @@ class FavoritesSection extends StatelessWidget {
                           ? 12
                           : 0,
                     ),
-                    child: FavoriteRadioStationCard(
+                    child: FavoriteGenrePill(
                       radioStation: radioStation,
                       onTap: () {
                         Navigator.push(
@@ -50,7 +50,6 @@ class FavoritesSection extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 16),
           ],
         );
       },
@@ -66,29 +65,20 @@ class _FavoritesSectionHeader extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.favorite,
-            color: Colors.red,
-            size: 20,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            'Your Favorites',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Text(
+        'Favorites',
+        style: theme.textTheme.headlineSmall?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
       ),
     );
   }
 }
 
-class FavoriteRadioStationCard extends StatelessWidget {
-  const FavoriteRadioStationCard({
+class FavoriteGenrePill extends StatelessWidget {
+  const FavoriteGenrePill({
     required this.radioStation,
     required this.onTap,
     super.key,
@@ -99,65 +89,62 @@ class FavoriteRadioStationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final colors = [
+      Colors.blue.shade300,
+      Colors.purple.shade400,
+      Colors.green.shade400,
+      Colors.orange.shade400,
+      Colors.red.shade400,
+      Colors.teal.shade400,
+    ];
+    final gradientColor = colors[radioStation.name.hashCode % colors.length];
 
-    return SizedBox(
-      width: 140,
-      child: Card(
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RadioStationImage(
-                  imageUrl: radioStation.favicon,
-                  size: 48,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  radioStation.name,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 4),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                        size: 12,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Favorite',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 60,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              gradientColor,
+              gradientColor.withValues(alpha: 0.8),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(22),
+              ),
+              child: RadioStationImage(
+                imageUrl: radioStation.favicon,
+                size: 44,
+                fallbackIconSize: 20,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Flexible(
+              child: Text(
+                radioStation.name,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );
