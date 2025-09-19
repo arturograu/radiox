@@ -4,21 +4,30 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'radio_player_cubit.freezed.dart';
 
 class RadioPlayerCubit extends Cubit<RadioPlayerState> {
   RadioPlayerCubit({
     required RadioStation radioStation,
+    required UserRepository userRepository,
     AudioPlayer? audioPlayer,
   }) : _audioPlayer = audioPlayer ?? AudioPlayer(),
-       super(RadioPlayerState(radioStation: radioStation)) {
+       _userRepository = userRepository,
+       super(
+         RadioPlayerState(
+           radioStation: radioStation,
+           isFavorite: userRepository.isFavoriteRadioStation(radioStation.id),
+         ),
+       ) {
     _playerStateSubscription = _audioPlayer.playerStateStream.listen(
       _onPlayerStateChanged,
     );
   }
 
   final AudioPlayer _audioPlayer;
+  final UserRepository _userRepository;
   late final StreamSubscription<PlayerState> _playerStateSubscription;
 
   void _onPlayerStateChanged(PlayerState playerState) {
@@ -75,6 +84,25 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
     }
   }
 
+  Future<void> toggleFavorite() async {
+    try {
+      if (state.isFavorite) {
+        await _userRepository.removeFavoriteRadioStation(state.radioStation.id);
+        emit(state.copyWith(isFavorite: false));
+      } else {
+        await _userRepository.addFavoriteRadioStation(state.radioStation);
+        emit(state.copyWith(isFavorite: true));
+      }
+    } on Exception catch (error) {
+      emit(
+        state.copyWith(
+          status: RadioPlayerStatus.error,
+          errorMessage: 'Failed to update favorite: $error',
+        ),
+      );
+    }
+  }
+
   @override
   Future<void> close() async {
     await _audioPlayer.dispose();
@@ -89,6 +117,7 @@ sealed class RadioPlayerState with _$RadioPlayerState {
     required RadioStation radioStation,
     @Default(RadioPlayerStatus.initial) RadioPlayerStatus status,
     @Default(0.7) double volume,
+    @Default(false) bool isFavorite,
     String? errorMessage,
   }) = _RadioPlayerState;
 }

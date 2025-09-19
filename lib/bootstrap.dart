@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:radio_browser_api_client/radio_browser_api_client.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -25,13 +26,14 @@ class AppBlocObserver extends BlocObserver {
 Future<void> bootstrap(
   FutureOr<Widget> Function({
     required RadioStationsRepository radioStationsRepository,
+    required UserRepository userRepository,
   })
   builder,
 ) async {
+  WidgetsFlutterBinding.ensureInitialized();
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
-
   Bloc.observer = const AppBlocObserver();
 
   final radioBrowserApiClient = RadioBrowserApiClient();
@@ -41,5 +43,13 @@ Future<void> bootstrap(
     apiClient: radioBrowserApiClient,
   );
 
-  runApp(await builder(radioStationsRepository: radioStationsRepository));
+  final userRepository = UserRepository();
+  await userRepository.initialize();
+
+  runApp(
+    await builder(
+      radioStationsRepository: radioStationsRepository,
+      userRepository: userRepository,
+    ),
+  );
 }

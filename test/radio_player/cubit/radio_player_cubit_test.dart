@@ -1,6 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
 import 'package:radiox/radio_player/radio_player.dart';
+import 'package:user_repository/user_repository.dart';
+
+class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
   group('RadioPlayerCubit', () {

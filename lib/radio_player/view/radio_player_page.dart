@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
 import 'package:radiox/radio_player/radio_player.dart';
+import 'package:user_repository/user_repository.dart';
 
 class RadioPlayerPage extends StatelessWidget {
   const RadioPlayerPage({required this.radioStation, super.key});
@@ -19,7 +20,10 @@ class RadioPlayerPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(radioStation.name), centerTitle: true),
       body: BlocProvider(
-        create: (_) => RadioPlayerCubit(radioStation: radioStation),
+        create: (context) => RadioPlayerCubit(
+          radioStation: radioStation,
+          userRepository: context.read<UserRepository>(),
+        ),
         child: const RadioPlayerView(),
       ),
     );

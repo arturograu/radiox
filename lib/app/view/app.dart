@@ -2,19 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
 import 'package:radiox/home/home.dart';
+import 'package:user_repository/user_repository.dart';
 
 class App extends StatelessWidget {
   const App({
     required RadioStationsRepository radioStationsRepository,
+    required UserRepository userRepository,
     super.key,
-  }) : _radioStationsRepository = radioStationsRepository;
+  }) : _radioStationsRepository = radioStationsRepository,
+       _userRepository = userRepository;
 
   final RadioStationsRepository _radioStationsRepository;
+  final UserRepository _userRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _radioStationsRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _radioStationsRepository),
+        RepositoryProvider.value(value: _userRepository),
+      ],
       child: const _AppView(),
     );
   }

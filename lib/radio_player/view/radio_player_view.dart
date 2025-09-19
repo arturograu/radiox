@@ -24,6 +24,8 @@ class RadioPlayerView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _RadioStationInfo(),
+            SizedBox(height: 24),
+            FavoriteButton(),
             SizedBox(height: 48),
             _PlayerControls(),
             SizedBox(height: 32),
