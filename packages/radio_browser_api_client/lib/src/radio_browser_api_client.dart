@@ -9,7 +9,7 @@ import 'package:radio_browser_api_client/radio_browser_api_client.dart';
 /// {@endtemplate}
 class RadioBrowserApiException implements Exception {
   /// {@macro radio_browser_api_exception}
-  RadioBrowserApiException(this.message);
+  const RadioBrowserApiException(this.message);
 
   /// The error message.
   final String message;
@@ -57,7 +57,7 @@ class RadioBrowserApiClient {
     if (candidates.isEmpty) candidates.addAll(_knownMirrors);
     _mirrorHost = await _chooseMirrorHost(candidates);
     if (_mirrorHost == null) {
-      throw RadioBrowserApiException('No Radio Browser mirror reachable');
+      throw const RadioBrowserApiException('No Radio Browser mirror reachable');
     }
   }
 
@@ -73,7 +73,9 @@ class RadioBrowserApiClient {
           .map((e) => Server.fromJson(e as Map<String, dynamic>))
           .toList();
     } on Exception catch (_) {
-      throw RadioBrowserApiException('Unexpected servers response format');
+      throw const RadioBrowserApiException(
+        'Unexpected servers response format',
+      );
     }
   }
 
@@ -136,7 +138,7 @@ class RadioBrowserApiClient {
   }) async {
     final host = _mirrorHost;
     if (host == null) {
-      throw RadioBrowserApiException(
+      throw const RadioBrowserApiException(
         'Client not initialized. Call initialize() first.',
       );
     }
