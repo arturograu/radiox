@@ -13,9 +13,6 @@ class RadioStationsRepository {
 
   Future<List<RadioStation>> getRadioStations() async {
     final radioStations = await _apiClient.listTopStations();
-    return radioStations
-        .where((station) => station.lastcheckok)
-        .map(RadioStation.fromApi)
-        .toList();
+    return radioStations.map(RadioStation.fromApi).toList();
   }
 }
