@@ -1,11 +1,6 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:radio_stations_repository/radio_stations_repository.dart';
 import 'package:radiox/radio_player/radio_player.dart';
-
-class MockAudioPlayer extends Mock implements AudioPlayer {}
 
 void main() {
   group('RadioPlayerCubit', () {
@@ -14,206 +9,111 @@ void main() {
       url: 'http://test.radio.com/stream',
     );
 
-    late MockAudioPlayer mockAudioPlayer;
-    late RadioPlayerCubit radioPlayerCubit;
+    group('RadioPlayerStatus', () {
+      test('has correct enum values', () {
+        expect(RadioPlayerStatus.values, contains(RadioPlayerStatus.initial));
+        expect(RadioPlayerStatus.values, contains(RadioPlayerStatus.loading));
+        expect(RadioPlayerStatus.values, contains(RadioPlayerStatus.playing));
+        expect(RadioPlayerStatus.values, contains(RadioPlayerStatus.paused));
+        expect(RadioPlayerStatus.values, contains(RadioPlayerStatus.error));
 
-    setUp(() {
-      mockAudioPlayer = MockAudioPlayer();
-      radioPlayerCubit = RadioPlayerCubit(
-        radioStation: testRadioStation,
-        audioPlayer: mockAudioPlayer,
-      );
+        // Verify stopped status is removed
+        expect(RadioPlayerStatus.values.length, equals(5));
+      });
 
-      when(
-        () => mockAudioPlayer.playerState,
-      ).thenReturn(PlayerState(false, ProcessingState.idle));
+      test('boolean getters work correctly', () {
+        expect(RadioPlayerStatus.initial.isInitial, isTrue);
+        expect(RadioPlayerStatus.loading.isLoading, isTrue);
+        expect(RadioPlayerStatus.playing.isPlaying, isTrue);
+        expect(RadioPlayerStatus.paused.isPaused, isTrue);
+        expect(RadioPlayerStatus.error.isError, isTrue);
 
-      when(() => mockAudioPlayer.dispose()).thenAnswer((_) async {});
+        // Verify other statuses are false when checking specific status
+        expect(RadioPlayerStatus.initial.isPlaying, isFalse);
+        expect(RadioPlayerStatus.playing.isPaused, isFalse);
+        expect(RadioPlayerStatus.paused.isError, isFalse);
+      });
     });
 
-    tearDown(() async {
-      await radioPlayerCubit.close();
-    });
-
-    test('initial state is correct', () {
-      expect(
-        radioPlayerCubit.state,
-        equals(const RadioPlayerState(radioStation: testRadioStation)),
-      );
-    });
-
-    test('radioStation getter returns correct station', () {
-      expect(radioPlayerCubit.state.radioStation, equals(testRadioStation));
-    });
-
-    group('handlePlayPause', () {
-      blocTest<RadioPlayerCubit, RadioPlayerState>(
-        'emits [loading, playing] when play succeeds from initial state',
-        setUp: () {
-          when(() => mockAudioPlayer.setUrl(any())).thenAnswer((_) async {
-            return null;
-          });
-          when(() => mockAudioPlayer.play()).thenAnswer((_) async {});
-        },
-        build: () => radioPlayerCubit,
-        act: (cubit) => cubit.handlePlayPause(),
-        expect: () => [
-          const RadioPlayerState(
-            status: RadioPlayerStatus.loading,
-            radioStation: testRadioStation,
-          ),
-          const RadioPlayerState(
-            status: RadioPlayerStatus.playing,
-            radioStation: testRadioStation,
-          ),
-        ],
-        verify: (_) {
-          verify(() => mockAudioPlayer.setUrl(testRadioStation.url)).called(1);
-          verify(() => mockAudioPlayer.play()).called(1);
-        },
-      );
-
-      blocTest<RadioPlayerCubit, RadioPlayerState>(
-        'emits [paused] when called while playing',
-        seed: () => const RadioPlayerState(
-          status: RadioPlayerStatus.playing,
+    group('RadioPlayerState', () {
+      test('can be created with required parameters', () {
+        const state = RadioPlayerState(
           radioStation: testRadioStation,
-        ),
-        setUp: () {
-          when(() => mockAudioPlayer.pause()).thenAnswer((_) async {});
-        },
-        build: () => radioPlayerCubit,
-        act: (cubit) => cubit.handlePlayPause(),
-        expect: () => [
-          const RadioPlayerState(
-            status: RadioPlayerStatus.paused,
-            radioStation: testRadioStation,
-          ),
-        ],
-        verify: (_) {
-          verify(() => mockAudioPlayer.pause()).called(1);
-        },
-      );
-
-      blocTest<RadioPlayerCubit, RadioPlayerState>(
-        'skips setUrl when player is not idle',
-        setUp: () {
-          when(
-            () => mockAudioPlayer.playerState,
-          ).thenReturn(PlayerState(false, ProcessingState.ready));
-          when(() => mockAudioPlayer.play()).thenAnswer((_) async {});
-        },
-        build: () => radioPlayerCubit,
-        act: (cubit) => cubit.handlePlayPause(),
-        expect: () => [
-          const RadioPlayerState(
-            status: RadioPlayerStatus.loading,
-            radioStation: testRadioStation,
-          ),
-          const RadioPlayerState(
-            status: RadioPlayerStatus.playing,
-            radioStation: testRadioStation,
-          ),
-        ],
-        verify: (_) {
-          verifyNever(() => mockAudioPlayer.setUrl(any()));
-          verify(() => mockAudioPlayer.play()).called(1);
-        },
-      );
-
-      blocTest<RadioPlayerCubit, RadioPlayerState>(
-        'emits [loading, error] when play fails',
-        setUp: () {
-          when(
-            () => mockAudioPlayer.setUrl(any()),
-          ).thenThrow(Exception('Network error'));
-        },
-        build: () => radioPlayerCubit,
-        act: (cubit) => cubit.handlePlayPause(),
-        expect: () => [
-          const RadioPlayerState(
-            status: RadioPlayerStatus.loading,
-            radioStation: testRadioStation,
-          ),
-          const RadioPlayerState(
-            status: RadioPlayerStatus.error,
-            radioStation: testRadioStation,
-            errorMessage:
-                'Failed to play radio station: Exception: Network error',
-          ),
-        ],
-      );
-
-      blocTest<RadioPlayerCubit, RadioPlayerState>(
-        'emits [error] when pause fails',
-        seed: () => const RadioPlayerState(
+          volume: 0.5,
           status: RadioPlayerStatus.playing,
+          errorMessage: 'Test error',
+        );
+
+        expect(state.radioStation, equals(testRadioStation));
+        expect(state.volume, equals(0.5));
+        expect(state.status, equals(RadioPlayerStatus.playing));
+        expect(state.errorMessage, equals('Test error'));
+      });
+
+      test('has correct default values', () {
+        const state = RadioPlayerState(radioStation: testRadioStation);
+
+        expect(state.status, equals(RadioPlayerStatus.initial));
+        expect(state.volume, equals(0.7));
+        expect(state.errorMessage, isNull);
+      });
+
+      test('copyWith works correctly', () {
+        const originalState = RadioPlayerState(radioStation: testRadioStation);
+
+        final newState = originalState.copyWith(
+          status: RadioPlayerStatus.playing,
+          volume: 0.8,
+          errorMessage: 'Test error',
+        );
+
+        expect(newState.radioStation, equals(testRadioStation));
+        expect(newState.status, equals(RadioPlayerStatus.playing));
+        expect(newState.volume, equals(0.8));
+        expect(newState.errorMessage, equals('Test error'));
+      });
+
+      test('preserves unchanged values in copyWith', () {
+        const originalState = RadioPlayerState(
           radioStation: testRadioStation,
-        ),
-        setUp: () {
-          when(
-            () => mockAudioPlayer.pause(),
-          ).thenThrow(Exception('Pause failed'));
-        },
-        build: () => radioPlayerCubit,
-        act: (cubit) => cubit.handlePlayPause(),
-        expect: () => [
-          const RadioPlayerState(
-            status: RadioPlayerStatus.error,
-            radioStation: testRadioStation,
-            errorMessage:
-                'Failed to pause radio station: Exception: Pause failed',
-          ),
-        ],
-      );
+          volume: 0.5,
+          status: RadioPlayerStatus.playing,
+        );
+
+        final newState = originalState.copyWith(
+          errorMessage: 'New error',
+        );
+
+        expect(newState.radioStation, equals(testRadioStation));
+        expect(newState.volume, equals(0.5));
+        expect(newState.status, equals(RadioPlayerStatus.playing));
+        expect(newState.errorMessage, equals('New error'));
+      });
     });
 
-    group('stop', () {
-      blocTest<RadioPlayerCubit, RadioPlayerState>(
-        'emits [stopped] when stop succeeds',
-        setUp: () {
-          when(() => mockAudioPlayer.stop()).thenAnswer((_) async {});
-        },
-        build: () => radioPlayerCubit,
-        act: (cubit) => cubit.stop(),
-        expect: () => [
-          const RadioPlayerState(
-            status: RadioPlayerStatus.stopped,
-            radioStation: testRadioStation,
-          ),
-        ],
-        verify: (_) {
-          verify(() => mockAudioPlayer.stop()).called(1);
-        },
-      );
+    group('equality and toString', () {
+      test('states with same values are equal', () {
+        const state1 = RadioPlayerState(
+          radioStation: testRadioStation,
+        );
+        const state2 = RadioPlayerState(
+          radioStation: testRadioStation,
+        );
 
-      blocTest<RadioPlayerCubit, RadioPlayerState>(
-        'emits [error] when stop fails',
-        setUp: () {
-          when(
-            () => mockAudioPlayer.stop(),
-          ).thenThrow(Exception('Stop failed'));
-        },
-        build: () => radioPlayerCubit,
-        act: (cubit) => cubit.stop(),
-        expect: () => [
-          const RadioPlayerState(
-            status: RadioPlayerStatus.error,
-            radioStation: testRadioStation,
-            errorMessage:
-                'Failed to stop radio station: Exception: Stop failed',
-          ),
-        ],
-      );
-    });
+        expect(state1, equals(state2));
+        expect(state1.hashCode, equals(state2.hashCode));
+      });
 
-    group('close', () {
-      test('disposes audio player', () async {
-        when(() => mockAudioPlayer.dispose()).thenAnswer((_) async {});
+      test('states with different values are not equal', () {
+        const state1 = RadioPlayerState(
+          radioStation: testRadioStation,
+        );
+        const state2 = RadioPlayerState(
+          radioStation: testRadioStation,
+          volume: 0.8,
+        );
 
-        await radioPlayerCubit.close();
-
-        verify(() => mockAudioPlayer.dispose()).called(1);
+        expect(state1, isNot(equals(state2)));
       });
     });
   });

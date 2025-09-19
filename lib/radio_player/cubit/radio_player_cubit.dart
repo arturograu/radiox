@@ -51,19 +51,6 @@ class RadioPlayerCubit extends Cubit<RadioPlayerState> {
     }
   }
 
-  Future<void> stop() async {
-    try {
-      await _audioPlayer.stop();
-    } on Exception catch (error) {
-      emit(
-        state.copyWith(
-          status: RadioPlayerStatus.error,
-          errorMessage: 'Failed to stop radio station: $error',
-        ),
-      );
-    }
-  }
-
   void volumeUp() {
     final newVolume = (state.volume + 0.1).clamp(0.0, 1.0);
     setVolume(newVolume);
@@ -111,14 +98,12 @@ enum RadioPlayerStatus {
   loading,
   playing,
   paused,
-  stopped,
   error;
 
   bool get isInitial => this == RadioPlayerStatus.initial;
   bool get isLoading => this == RadioPlayerStatus.loading;
   bool get isPlaying => this == RadioPlayerStatus.playing;
   bool get isPaused => this == RadioPlayerStatus.paused;
-  bool get isStopped => this == RadioPlayerStatus.stopped;
   bool get isError => this == RadioPlayerStatus.error;
 }
 

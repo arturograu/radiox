@@ -103,12 +103,6 @@ class _PlayerControls extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ControlButton(
-              icon: Icons.stop,
-              onPressed: state.status.isInitial ? null : cubit.stop,
-              tooltip: 'Stop',
-            ),
-            const SizedBox(width: 24),
-            ControlButton(
               icon: state.status.icon,
               onPressed: state.status.isLoading ? null : cubit.handlePlayPause,
               tooltip: state.status.buttonTooltip,
@@ -157,7 +151,6 @@ extension on RadioPlayerStatus {
   IconData get icon => switch (this) {
     RadioPlayerStatus.playing => Icons.pause,
     RadioPlayerStatus.paused => Icons.play_arrow,
-    RadioPlayerStatus.stopped => Icons.play_arrow,
     RadioPlayerStatus.initial => Icons.play_arrow,
     RadioPlayerStatus.loading => Icons.hourglass_empty,
     RadioPlayerStatus.error => Icons.error,
@@ -166,7 +159,6 @@ extension on RadioPlayerStatus {
   String get buttonTooltip => switch (this) {
     RadioPlayerStatus.playing => 'Pause',
     RadioPlayerStatus.paused => 'Play',
-    RadioPlayerStatus.stopped => 'Play',
     RadioPlayerStatus.initial => 'Play',
     RadioPlayerStatus.loading => 'Loading...',
     RadioPlayerStatus.error => 'Error occurred',
@@ -175,7 +167,6 @@ extension on RadioPlayerStatus {
   Color get color => switch (this) {
     RadioPlayerStatus.playing => Colors.green,
     RadioPlayerStatus.paused => Colors.orange,
-    RadioPlayerStatus.stopped => Colors.grey,
     RadioPlayerStatus.initial => Colors.grey,
     RadioPlayerStatus.loading => Colors.blue,
     RadioPlayerStatus.error => Colors.red,
@@ -186,7 +177,6 @@ extension on RadioPlayerStatus {
     RadioPlayerStatus.loading => 'Loading...',
     RadioPlayerStatus.playing => 'Now playing',
     RadioPlayerStatus.paused => 'Paused',
-    RadioPlayerStatus.stopped => 'Stopped',
     RadioPlayerStatus.error => 'Error occurred',
   };
 }
