@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FavoriteRadioStation {
 
- String get name; String get url; DateTime? get dateAdded;
+ String get id; String get name; String get url; DateTime? get dateAdded;
 /// Create a copy of FavoriteRadioStation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $FavoriteRadioStationCopyWith<FavoriteRadioStation> get copyWith => _$FavoriteRa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FavoriteRadioStation&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FavoriteRadioStation&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,url,dateAdded);
+int get hashCode => Object.hash(runtimeType,id,name,url,dateAdded);
 
 @override
 String toString() {
-  return 'FavoriteRadioStation(name: $name, url: $url, dateAdded: $dateAdded)';
+  return 'FavoriteRadioStation(id: $id, name: $name, url: $url, dateAdded: $dateAdded)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $FavoriteRadioStationCopyWith<$Res>  {
   factory $FavoriteRadioStationCopyWith(FavoriteRadioStation value, $Res Function(FavoriteRadioStation) _then) = _$FavoriteRadioStationCopyWithImpl;
 @useResult
 $Res call({
- String name, String url, DateTime? dateAdded
+ String id, String name, String url, DateTime? dateAdded
 });
 
 
@@ -65,9 +65,10 @@ class _$FavoriteRadioStationCopyWithImpl<$Res>
 
 /// Create a copy of FavoriteRadioStation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? url = null,Object? dateAdded = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? url = null,Object? dateAdded = freezed,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,dateAdded: freezed == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
 as DateTime?,
@@ -152,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String url,  DateTime? dateAdded)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String url,  DateTime? dateAdded)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FavoriteRadioStation() when $default != null:
-return $default(_that.name,_that.url,_that.dateAdded);case _:
+return $default(_that.id,_that.name,_that.url,_that.dateAdded);case _:
   return orElse();
 
 }
@@ -173,10 +174,10 @@ return $default(_that.name,_that.url,_that.dateAdded);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String url,  DateTime? dateAdded)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String url,  DateTime? dateAdded)  $default,) {final _that = this;
 switch (_that) {
 case _FavoriteRadioStation():
-return $default(_that.name,_that.url,_that.dateAdded);}
+return $default(_that.id,_that.name,_that.url,_that.dateAdded);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -190,10 +191,10 @@ return $default(_that.name,_that.url,_that.dateAdded);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String url,  DateTime? dateAdded)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String url,  DateTime? dateAdded)?  $default,) {final _that = this;
 switch (_that) {
 case _FavoriteRadioStation() when $default != null:
-return $default(_that.name,_that.url,_that.dateAdded);case _:
+return $default(_that.id,_that.name,_that.url,_that.dateAdded);case _:
   return null;
 
 }
@@ -205,9 +206,10 @@ return $default(_that.name,_that.url,_that.dateAdded);case _:
 @JsonSerializable()
 
 class _FavoriteRadioStation implements FavoriteRadioStation {
-  const _FavoriteRadioStation({required this.name, required this.url, this.dateAdded});
+  const _FavoriteRadioStation({required this.id, required this.name, required this.url, this.dateAdded});
   factory _FavoriteRadioStation.fromJson(Map<String, dynamic> json) => _$FavoriteRadioStationFromJson(json);
 
+@override final  String id;
 @override final  String name;
 @override final  String url;
 @override final  DateTime? dateAdded;
@@ -225,16 +227,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FavoriteRadioStation&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FavoriteRadioStation&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,url,dateAdded);
+int get hashCode => Object.hash(runtimeType,id,name,url,dateAdded);
 
 @override
 String toString() {
-  return 'FavoriteRadioStation(name: $name, url: $url, dateAdded: $dateAdded)';
+  return 'FavoriteRadioStation(id: $id, name: $name, url: $url, dateAdded: $dateAdded)';
 }
 
 
@@ -245,7 +247,7 @@ abstract mixin class _$FavoriteRadioStationCopyWith<$Res> implements $FavoriteRa
   factory _$FavoriteRadioStationCopyWith(_FavoriteRadioStation value, $Res Function(_FavoriteRadioStation) _then) = __$FavoriteRadioStationCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String url, DateTime? dateAdded
+ String id, String name, String url, DateTime? dateAdded
 });
 
 
@@ -262,9 +264,10 @@ class __$FavoriteRadioStationCopyWithImpl<$Res>
 
 /// Create a copy of FavoriteRadioStation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? url = null,Object? dateAdded = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? url = null,Object? dateAdded = freezed,}) {
   return _then(_FavoriteRadioStation(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,dateAdded: freezed == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
 as DateTime?,

@@ -9,8 +9,8 @@ part of 'radio_station.dart';
 _RadioStation _$RadioStationFromJson(Map<String, dynamic> json) =>
     _RadioStation(
       name: json['name'] as String,
+      stationuuid: json['stationuuid'] as String,
       changeuuid: json['changeuuid'] as String?,
-      stationuuid: json['stationuuid'] as String?,
       url: json['url'] as String?,
       urlResolved: json['url_resolved'] as String?,
       homepage: json['homepage'] as String?,
@@ -64,8 +64,8 @@ Map<String, dynamic> _$RadioStationToJson(
   _RadioStation instance,
 ) => <String, dynamic>{
   'name': instance.name,
-  'changeuuid': instance.changeuuid,
   'stationuuid': instance.stationuuid,
+  'changeuuid': instance.changeuuid,
   'url': instance.url,
   'url_resolved': instance.urlResolved,
   'homepage': instance.homepage,

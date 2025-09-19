@@ -49,7 +49,6 @@ void main() {
         clicktrend: 10,
         geoLat: 51.5074,
         geoLong: -0.1278,
-        hasExtendedInfo: false,
       ),
     ];
 
@@ -74,8 +73,16 @@ void main() {
         expect(
           result,
           equals([
-            RadioStation(name: 'Test Radio 1', url: 'http://test1.com/stream'),
-            RadioStation(name: 'Test Radio 2', url: 'http://test2.com/stream'),
+            const RadioStation(
+              id: 'station-uuid-1',
+              name: 'Test Radio 1',
+              url: 'http://test1.com/stream',
+            ),
+            const RadioStation(
+              id: 'station-uuid-2',
+              name: 'Test Radio 2',
+              url: 'http://test2.com/stream',
+            ),
           ]),
         );
 

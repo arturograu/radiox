@@ -9,6 +9,7 @@ part of 'favorite_radio_station.dart';
 _FavoriteRadioStation _$FavoriteRadioStationFromJson(
   Map<String, dynamic> json,
 ) => _FavoriteRadioStation(
+  id: json['id'] as String,
   name: json['name'] as String,
   url: json['url'] as String,
   dateAdded: json['dateAdded'] == null
@@ -19,6 +20,7 @@ _FavoriteRadioStation _$FavoriteRadioStationFromJson(
 Map<String, dynamic> _$FavoriteRadioStationToJson(
   _FavoriteRadioStation instance,
 ) => <String, dynamic>{
+  'id': instance.id,
   'name': instance.name,
   'url': instance.url,
   'dateAdded': instance.dateAdded?.toIso8601String(),

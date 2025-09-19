@@ -10,8 +10,8 @@ part 'radio_station.g.dart';
 sealed class RadioStation with _$RadioStation {
   const factory RadioStation({
     required String name,
+    required String stationuuid,
     String? changeuuid,
-    String? stationuuid,
     String? url,
     String? urlResolved,
     String? homepage,

@@ -6,13 +6,17 @@ part 'radio_station.g.dart';
 
 @freezed
 sealed class RadioStation with _$RadioStation {
-  const factory RadioStation({required String name, required String url}) =
-      _RadioStation;
+  const factory RadioStation({
+    required String id,
+    required String name,
+    required String url,
+  }) = _RadioStation;
 
   factory RadioStation.fromJson(Map<String, dynamic> json) =>
       _$RadioStationFromJson(json);
 
   factory RadioStation.fromApi(api.RadioStation radioStation) => RadioStation(
+    id: radioStation.stationuuid,
     name: radioStation.name,
     url: radioStation.urlResolved ?? radioStation.url ?? '',
   );

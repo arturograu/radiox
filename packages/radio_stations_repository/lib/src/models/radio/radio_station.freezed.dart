@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RadioStation {
 
- String get name; String get url;
+ String get id; String get name; String get url;
 /// Create a copy of RadioStation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $RadioStationCopyWith<RadioStation> get copyWith => _$RadioStationCopyWithImpl<R
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RadioStation&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RadioStation&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,url);
+int get hashCode => Object.hash(runtimeType,id,name,url);
 
 @override
 String toString() {
-  return 'RadioStation(name: $name, url: $url)';
+  return 'RadioStation(id: $id, name: $name, url: $url)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $RadioStationCopyWith<$Res>  {
   factory $RadioStationCopyWith(RadioStation value, $Res Function(RadioStation) _then) = _$RadioStationCopyWithImpl;
 @useResult
 $Res call({
- String name, String url
+ String id, String name, String url
 });
 
 
@@ -65,9 +65,10 @@ class _$RadioStationCopyWithImpl<$Res>
 
 /// Create a copy of RadioStation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? url = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? url = null,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -151,10 +152,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RadioStation() when $default != null:
-return $default(_that.name,_that.url);case _:
+return $default(_that.id,_that.name,_that.url);case _:
   return orElse();
 
 }
@@ -172,10 +173,10 @@ return $default(_that.name,_that.url);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String url)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String url)  $default,) {final _that = this;
 switch (_that) {
 case _RadioStation():
-return $default(_that.name,_that.url);}
+return $default(_that.id,_that.name,_that.url);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -189,10 +190,10 @@ return $default(_that.name,_that.url);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String url)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String url)?  $default,) {final _that = this;
 switch (_that) {
 case _RadioStation() when $default != null:
-return $default(_that.name,_that.url);case _:
+return $default(_that.id,_that.name,_that.url);case _:
   return null;
 
 }
@@ -204,9 +205,10 @@ return $default(_that.name,_that.url);case _:
 @JsonSerializable()
 
 class _RadioStation implements RadioStation {
-  const _RadioStation({required this.name, required this.url});
+  const _RadioStation({required this.id, required this.name, required this.url});
   factory _RadioStation.fromJson(Map<String, dynamic> json) => _$RadioStationFromJson(json);
 
+@override final  String id;
 @override final  String name;
 @override final  String url;
 
@@ -223,16 +225,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RadioStation&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RadioStation&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.url, url) || other.url == url));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,url);
+int get hashCode => Object.hash(runtimeType,id,name,url);
 
 @override
 String toString() {
-  return 'RadioStation(name: $name, url: $url)';
+  return 'RadioStation(id: $id, name: $name, url: $url)';
 }
 
 
@@ -243,7 +245,7 @@ abstract mixin class _$RadioStationCopyWith<$Res> implements $RadioStationCopyWi
   factory _$RadioStationCopyWith(_RadioStation value, $Res Function(_RadioStation) _then) = __$RadioStationCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String url
+ String id, String name, String url
 });
 
 
@@ -260,9 +262,10 @@ class __$RadioStationCopyWithImpl<$Res>
 
 /// Create a copy of RadioStation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? url = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? url = null,}) {
   return _then(_RadioStation(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,
   ));

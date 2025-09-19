@@ -7,7 +7,15 @@ part of 'radio_station.dart';
 // **************************************************************************
 
 _RadioStation _$RadioStationFromJson(Map<String, dynamic> json) =>
-    _RadioStation(name: json['name'] as String, url: json['url'] as String);
+    _RadioStation(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      url: json['url'] as String,
+    );
 
 Map<String, dynamic> _$RadioStationToJson(_RadioStation instance) =>
-    <String, dynamic>{'name': instance.name, 'url': instance.url};
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'url': instance.url,
+    };

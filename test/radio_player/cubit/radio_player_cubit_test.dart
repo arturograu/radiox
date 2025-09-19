@@ -5,6 +5,7 @@ import 'package:radiox/radio_player/radio_player.dart';
 void main() {
   group('RadioPlayerCubit', () {
     const testRadioStation = RadioStation(
+      id: 'station-uuid-1',
       name: 'Test Radio',
       url: 'http://test.radio.com/stream',
     );

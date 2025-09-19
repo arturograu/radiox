@@ -11,6 +11,7 @@ part 'favorite_radio_station.g.dart';
 @freezed
 sealed class FavoriteRadioStation with _$FavoriteRadioStation {
   const factory FavoriteRadioStation({
+    required String id,
     required String name,
     required String url,
     DateTime? dateAdded,
@@ -21,6 +22,7 @@ sealed class FavoriteRadioStation with _$FavoriteRadioStation {
 
   factory FavoriteRadioStation.fromRadioStation(RadioStation radioStation) =>
       FavoriteRadioStation(
+        id: radioStation.id,
         name: radioStation.name,
         url: radioStation.url,
         dateAdded: DateTime.now(),
@@ -30,6 +32,7 @@ sealed class FavoriteRadioStation with _$FavoriteRadioStation {
 extension FavoriteRadioStationExtension on FavoriteRadioStation {
   /// Converts this favorite radio station back to a RadioStation.
   RadioStation toRadioStation() => RadioStation(
+    id: id,
     name: name,
     url: url,
   );

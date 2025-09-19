@@ -11,10 +11,12 @@ class MockSharedPreferences extends Mock implements SharedPreferences {}
 void main() {
   group('UserRepository', () {
     const testRadioStation1 = RadioStation(
+      id: 'station-uuid-1',
       name: 'Test Radio 1',
       url: 'http://test1.radio.com/stream',
     );
     const testRadioStation2 = RadioStation(
+      id: 'station-uuid-2',
       name: 'Test Radio 2',
       url: 'http://test2.radio.com/stream',
     );
@@ -83,7 +85,10 @@ void main() {
 
     group('favorite radio stations', () {
       test('starts with empty favorites', () {
-        expect(userRepository.isFavoriteRadioStation('Test Radio 1'), isFalse);
+        expect(
+          userRepository.isFavoriteRadioStation('station-uuid-1'),
+          isFalse,
+        );
       });
 
       test('can add favorite radio station', () async {
@@ -258,10 +263,12 @@ void main() {
 
   group('User', () {
     const testRadioStation1 = RadioStation(
+      id: 'station-uuid-1',
       name: 'Test Radio 1',
       url: 'http://test1.radio.com/stream',
     );
     const testRadioStation2 = RadioStation(
+      id: 'station-uuid-2',
       name: 'Test Radio 2',
       url: 'http://test2.radio.com/stream',
     );
@@ -314,6 +321,7 @@ void main() {
 
   group('FavoriteRadioStation', () {
     const testRadioStation1 = RadioStation(
+      id: 'station-uuid-1',
       name: 'Test Radio 1',
       url: 'http://test1.radio.com/stream',
     );
@@ -321,6 +329,7 @@ void main() {
     test('can be created from RadioStation', () {
       final favorite = FavoriteRadioStation.fromRadioStation(testRadioStation1);
 
+      expect(favorite.id, equals('station-uuid-1'));
       expect(favorite.name, equals('Test Radio 1'));
       expect(favorite.url, equals('http://test1.radio.com/stream'));
       expect(favorite.dateAdded, isNotNull);
@@ -330,6 +339,7 @@ void main() {
       final favorite = FavoriteRadioStation.fromRadioStation(testRadioStation1);
       final radioStation = favorite.toRadioStation();
 
+      expect(radioStation.id, equals('station-uuid-1'));
       expect(radioStation.name, equals('Test Radio 1'));
       expect(radioStation.url, equals('http://test1.radio.com/stream'));
     });
@@ -339,6 +349,7 @@ void main() {
       final radioStation = favorite.toRadioStation();
       final favoriteAgain = FavoriteRadioStation.fromRadioStation(radioStation);
 
+      expect(favoriteAgain.id, equals(favorite.id));
       expect(favoriteAgain.name, equals(favorite.name));
       expect(favoriteAgain.url, equals(favorite.url));
     });
@@ -348,6 +359,7 @@ void main() {
       final json = favorite.toJson();
       final favoriteFromJson = FavoriteRadioStation.fromJson(json);
 
+      expect(favoriteFromJson.id, equals(favorite.id));
       expect(favoriteFromJson.name, equals(favorite.name));
       expect(favoriteFromJson.url, equals(favorite.url));
       expect(favoriteFromJson.dateAdded, equals(favorite.dateAdded));

@@ -70,7 +70,7 @@ class UserRepository {
   /// Adds a radio station to the user's favorites.
   Future<void> addFavoriteRadioStation(RadioStation radioStation) async {
     if (!_favoriteRadioStations.any(
-      (station) => station.name == radioStation.name,
+      (station) => station.id == radioStation.id,
     )) {
       final favoriteRadioStation = FavoriteRadioStation.fromRadioStation(
         radioStation,
@@ -82,10 +82,10 @@ class UserRepository {
   }
 
   /// Removes a radio station from the user's favorites.
-  Future<void> removeFavoriteRadioStation(String radioStationName) async {
+  Future<void> removeFavoriteRadioStation(String radioStationId) async {
     final initialLength = _favoriteRadioStations.length;
     _favoriteRadioStations.removeWhere(
-      (station) => station.name == radioStationName,
+      (station) => station.id == radioStationId,
     );
     if (_favoriteRadioStations.length < initialLength) {
       await _saveToStorage();
@@ -94,9 +94,9 @@ class UserRepository {
   }
 
   /// Checks if a radio station is in the user's favorites.
-  bool isFavoriteRadioStation(String radioStationName) {
+  bool isFavoriteRadioStation(String radioStationId) {
     return _favoriteRadioStations.any(
-      (station) => station.name == radioStationName,
+      (station) => station.id == radioStationId,
     );
   }
 
