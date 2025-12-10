@@ -20,7 +20,7 @@ dependencies:
     path: ./packages/radio_browser_api_client
   radio_stations_repository:
     path: ./packages/radio_stations_repository
-  shared_preferences: ^2.3.3
+  shared_preferences: ^2.5.4
   user_repository:
     path: ./packages/user_repository
 
